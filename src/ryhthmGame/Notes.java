@@ -1,4 +1,4 @@
-import java.awt.event.KeyEvent;
+package ryhthmGame;
 
 public class Notes {
     public int x;

@@ -1,3 +1,5 @@
+package ryhthmGame;
+
 import junit.framework.TestCase;
 
 public class NotesTest extends TestCase {

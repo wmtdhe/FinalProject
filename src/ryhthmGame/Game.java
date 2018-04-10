@@ -1,14 +1,12 @@
-package rhythmGame;
-import java.io.FileWriter;
-import java.io.IOException;
-
+package ryhthmGame;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.ParseException;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.*;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class Game {
     public Player player;
