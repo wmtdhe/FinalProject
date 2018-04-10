@@ -1,13 +1,20 @@
 package rhythmGame;
+/**
+ * 
+ * @author szheng20
+ *
+ */
 
 public class Song {
 	public Notes notes[];
 	public int health;
 	public int score;
+	public String name;
 	//combo implementation in the future
-	public Song(Notes[] notes){
+	public Song(Notes[] notes, String name){
 		this.notes=notes; //manually mapped beats
 		this.health=100; //full
+		this.name = name;
 	}
 	/**
 	 * deduct health if players miss beats

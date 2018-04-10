@@ -33,7 +33,7 @@ public class GUI extends JFrame{
     public void paint(Graphics g) {
         super.paint(g);
         Graphics2D g2 = (Graphics2D) g;
-        Image image = Toolkit.getDefaultToolkit().getImage("C:\\\\Users\\\\思遥\\\\IdeaProjects\\\\FinalProject\\\\src\\\\bg.jpg");
+        Image image = Toolkit.getDefaultToolkit().getImage("C:\\\\Users\\\\˼ң\\\\IdeaProjects\\\\FinalProject\\\\src\\\\bg.jpg");
         Line2D linU = new Line2D.Float(0, 450, 800, 450);
         Line2D linB = new Line2D.Float(0, 500, 800, 500);
         Line2D linD = new Line2D.Float(0, 500, 800, 500);
@@ -63,7 +63,7 @@ public class GUI extends JFrame{
 
 
     //public void paint(Graphics g){
-    //    Image image = Toolkit.getDefaultToolkit().getImage("C:\\Users\\思遥\\IdeaProjects\\FinalProject\\src\\bg.jpg");
+    //    Image image = Toolkit.getDefaultToolkit().getImage("C:\\Users\\˼ң\\IdeaProjects\\FinalProject\\src\\bg.jpg");
     //    g.drawImage(image, 100, 100, this);
    // }
 
