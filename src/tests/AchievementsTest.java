@@ -1,6 +1,7 @@
-package ryhthmGame;
+package tests;
 
 import junit.framework.TestCase;
+import rhythmGame.Achievements;
 
 public class AchievementsTest extends TestCase {
     Achievements achievements=new Achievements(0,2);

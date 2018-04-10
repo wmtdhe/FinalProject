@@ -1,4 +1,4 @@
-package ryhthmGame;
+package rhythmGame;
 /**
  * Containing each player's data
  * @author lechang3
@@ -6,11 +6,6 @@ package ryhthmGame;
  */
 
 import org.json.simple.JSONObject;
-import java.io.FileWriter;
-import java.io.IOException;
-
-import org.json.simple.parser.ParseException;
-import org.json.simple.parser.JSONParser;
 
 
 public class Player {

@@ -1,4 +1,4 @@
-package ryhthmGame;
+package rhythmGame;
 
 import javax.swing.*;
 import java.awt.*;

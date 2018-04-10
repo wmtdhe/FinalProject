@@ -1,4 +1,4 @@
-package ryhthmGame;
+package rhythmGame;
 
 public class Song {
 	
