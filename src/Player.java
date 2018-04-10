@@ -1,3 +1,16 @@
+package rhythmGame;
+/**
+ * Containing each player's data
+ * @author lechang3
+ *
+ */
+
+import org.json.simple.JSONObject;
+import java.io.FileWriter;
+import java.io.IOException;
+
+import org.json.simple.parser.ParseException;
+import org.json.simple.parser.JSONParser;
 
 public class Player {
 
@@ -21,6 +34,17 @@ public class Player {
 		
 		this.updateAchievement();
 		
+		
+	}
+	
+	Player(JSONObject data){
+		this.name = (String)data.get("name");
+		this.setHighScore((int)data.get("highscore"));
+		this.firstSongScores = ((int[])data.get("first"));
+		this.secondSongScores = ((int[])data.get("second"));
+		this.count = (int)data.get("count");
+		this.expert = (boolean)data.get("expert");
+		this.updateAchievement();
 		
 	}
 
@@ -102,4 +126,9 @@ public class Player {
 	public void updateAchievement() {
 		this.playerAchievement = new Achievements(this.count, this.highScore);
 	}
+	
+	
+	
+	
+
 }
