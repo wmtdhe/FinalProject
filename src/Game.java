@@ -1,11 +1,9 @@
 public class Game {
-    public int player;
-    public int[] achievements;
-    public int score;
-    public int playtimes;
+    public Player player;
+    public Song currentSong;
 
-
-    public Game(int player){
-
+    public Game(String name){
+    	this.player = new Player(name);
+    	this.currentSong = null;
     }
 }
