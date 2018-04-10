@@ -1,11 +1,18 @@
+package rhythmGame;
 public class Achievements {
-    //public boolean[] achievements;
+    public boolean[] achievements;
     public int score;
     public int count;
 
     public Achievements(int count, int score) {
         this.count=count;
         this.score=score;
+        this.achievements = new boolean[4];
+        this.achievements[0] = this.playedOnce();
+        this.achievements[1] = this.playedTenTimes();
+        this.achievements[2] = this.tenK();
+        this.achievements[3] = this.ahundredK();
+        
     }
     // more to add in the future
     /**
@@ -59,4 +66,3 @@ public class Achievements {
         }
     }
 }
-
