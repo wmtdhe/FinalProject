@@ -6,6 +6,10 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.geom.Line2D;
 
+/**
+ * @author szheng20
+ */
+
 public class GUI extends JFrame{
     //public JFrame window;
     //public JPanel myPanel;

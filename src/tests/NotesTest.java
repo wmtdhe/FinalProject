@@ -36,4 +36,12 @@ public class NotesTest extends TestCase {
         assertEquals(notes4.hit(68),false);
         assertEquals(notes4.hit(74),false);
     }
+    public void testPassed(){
+        Notes notes1=new Notes(250,475);
+        Notes notes2=new Notes(230,530);
+        notes1.passed();
+        assertEquals(notes1.pass,0);
+        notes2.passed();
+        assertEquals(notes2.pass,1);
+    }
 }
