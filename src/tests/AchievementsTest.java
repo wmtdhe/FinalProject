@@ -1,4 +1,7 @@
 package tests;
+/**
+ * @author szheng20
+ */
 
 import junit.framework.TestCase;
 import rhythmGame.Achievements;

@@ -6,21 +6,25 @@ package rhythmGame;
  */
 
 import org.json.simple.JSONObject;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Arrays;
 
+import org.json.simple.parser.ParseException;
+import org.json.simple.parser.JSONParser;
 
 public class Player {
 
 	public String name;
-	private int highScore;
-	private int[] firstSongScores; 
+	private int highScore;//highest score on record (for achievement use)
+	private int[] firstSongScores;//highest ten scores of this player on the first song
 	private int[] secondSongScores;
 	private Achievements playerAchievement;
 	private int count;//total play times
 	public boolean expert;//reached expert level
 	
-	Achievements playerAchievements;
 	
-	Player(String name){
+	public Player(String name){
 		this.name = name;
 		this.setHighScore(0);
 		this.firstSongScores = new int[10];
@@ -33,15 +37,36 @@ public class Player {
 		
 	}
 	
+	
+	/**
+	 * Load the player data directly from json file
+	 * @param data
+	 */
 	Player(JSONObject data){
 		this.name = (String)data.get("name");
-		this.setHighScore((int)data.get("highscore"));
-		this.firstSongScores = ((int[])data.get("first"));
-		this.secondSongScores = ((int[])data.get("second"));
-		this.count = (int)data.get("count");
+		this.setHighScore(((Long)data.get("highScore")).intValue());
+		String line = (String)data.get("first");
+		this.firstSongScores = convert(line);
+		line = (String)data.get("second");
+		this.secondSongScores = (convert(line));
+		this.count = ((Long)data.get("count")).intValue();
 		this.expert = (boolean)data.get("expert");
 		this.updateAchievement();
 		
+	}
+	
+	
+	/**
+	 * Convert the score array from string to int[]
+	 * @param line
+	 * @return
+	 */
+	private int[] convert (String line) {
+		line = line.replace("[","");
+		line = line.replace("]", "");
+		line = line.replace(" ", "");
+		int[] numbers = Arrays.stream(line.split(",")).mapToInt(Integer::parseInt).toArray();
+		return numbers;
 	}
 
 	//getter setter for highest score
@@ -74,7 +99,7 @@ public class Player {
 	}
 	
 	
-	//setters for high scores
+	//setters for high scores. Return sorted arrays.
 	public void setFirstScores(int score) {
 		int[] scores = this.getFirstScores();
 		for(int i=0; i<10; i++) {
@@ -92,7 +117,6 @@ public class Player {
 			}
 		}
 	}
-	
 	
 	/**
 	 * Helper function updating the score array.
@@ -122,6 +146,8 @@ public class Player {
 	public void updateAchievement() {
 		this.playerAchievement = new Achievements(this.count, this.highScore);
 	}
+	
+	
 	
 	
 	
