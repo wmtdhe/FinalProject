@@ -17,6 +17,7 @@ import org.json.simple.parser.*;
 public class Game {
     public Player player;
     public Song currentSong;
+    public boolean ranked;
 
     /**
      * If player data exists, load the data,
@@ -75,7 +76,7 @@ public class Game {
 		JSONParser parser = new JSONParser();
 		try {Object a = parser.parse(file);
 			this.player = new Player((JSONObject)a);
-		}catch(ParseException e) {e.printStackTrace();} catch (IOException e) {e.printStackTrace();}
+		}catch(ParseException |IOException e){e.printStackTrace();}
 		
 			try {
 				file.close();
@@ -121,10 +122,7 @@ public class Game {
 		}
 		else {
 			data = new JSONArray();
-			JSONObject entry = new JSONObject();
-			entry.put("name",player.name);
-			entry.put("score", currentSong.score);
-			data.add(entry);
+			addNewEntry(data);
 		}
 		
 		//store the data to json file
@@ -153,19 +151,20 @@ public class Game {
 			
 			int score = ((Long)iter.get("score")).intValue();
 			if (score<currentSong.score) {//insert here
+				this.ranked = true;
 					JSONArray newData = new JSONArray();
 					for (int j = 0; j<10; j++) {
 						if(j==i) {
-							JSONObject entry = new JSONObject();
-							entry.put("name",player.name);
-							entry.put("score", currentSong.score);
-							newData.add(entry);
+							addNewEntry(newData);
 						}
 						else if(j<i) {
-							newData.add(data.get(j));
+							JSONObject k = (JSONObject)data.get(j);
+							k.put("last", false);
+							newData.add(k);
 						}
 						else {
 							try {JSONObject k = (JSONObject)data.get(j-1);
+								k.put("last", false);
 								newData.add(k);} catch (IndexOutOfBoundsException e){return newData;}
 					}
 				}
@@ -176,15 +175,27 @@ public class Game {
 		
 		}
 		catch (IndexOutOfBoundsException e) {//data has less than 10 entries
-			JSONObject entry = new JSONObject();
-			entry.put("name",player.name);
-			entry.put("score", currentSong.score);
-			data.add(entry);
+			addNewEntry(data);
+			this.ranked = true;
 			return data;
 		}
 	}
 		//score does not reach top 10
+		this.ranked = false;
 		return data;
+	}
+
+
+	/**
+	 * Add current score as a new entry to the record
+	 * @param data
+	 */
+	private void addNewEntry(JSONArray data) {
+		JSONObject entry = new JSONObject();
+		entry.put("name",player.name);
+		entry.put("score", currentSong.score);
+		entry.put("last", true);
+		data.add(entry);
 	}
 	
 	
