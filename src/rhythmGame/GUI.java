@@ -12,30 +12,51 @@ import java.awt.geom.Line2D;
  * @author szheng20
  */
 
-public class GUI extends JFrame implements ActionListener{
+public class GUI extends JFrame{
     //public JFrame window;
     //public JPanel myPanel;
-    public JPanel panel;
-    public CardLayout c;
-    public JPanel t;
+    public JPanel cardPanel;
+    public CardLayout cardLayout = new CardLayout();
+    public JPanel profile = new Profile();
+    public JPanel songSelection = new SongSelection();
     public GUI(){
-         panel=new JPanel();
-         c=new CardLayout();
-        panel.setLayout(c);
+        cardPanel = new JPanel();
+        cardPanel.setLayout(cardLayout);
 
-        getContentPane().add(panel);
+        getContentPane().add(cardPanel,BorderLayout.SOUTH);
         setSize(800,600);
 
-        JButton button =new JButton("Profile");
-        JPanel panel1=new JPanel();
-        panel1.add(button,"asdw");
-        button.addActionListener(this);
-        panel.add(panel1);
-        //new panel screen
-        t=new Profile();
-        panel.add(t,"Profile");
-        //this.getContentPane();
-        //panel.add(paint(g));
+        JButton newGame =  new JButton("New Game");
+        JButton profileButton =new JButton("Profile");
+        
+        
+        
+        newGame.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+                cardLayout.show(cardPanel,"New Game");
+            }
+        });
+        
+        
+        profileButton.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+                cardLayout.show(cardPanel,"Profile");
+            }
+        });
+        
+        
+        
+        JPanel buttonPanel=new JPanel();
+        buttonPanel.add(newGame);
+        buttonPanel.add(profileButton);
+        
+        cardPanel.add(buttonPanel);
+        cardPanel.add(songSelection, "New Game");
+        cardPanel.add(profile,"Profile");
+        
+        
     }
 
     /**
@@ -46,7 +67,7 @@ public class GUI extends JFrame implements ActionListener{
     public void paint(Graphics g) {
         super.paint(g);
         Graphics2D g2 = (Graphics2D) g;
-       // Image image = Toolkit.getDefaultToolkit().getImage("C:\\\\Users\\\\˼ң\\\\IdeaProjects\\\\FinalProject\\\\src\\\\bg.jpg");
+      
         Line2D linU = new Line2D.Float(0, 450, 800, 450);
         Line2D linB = new Line2D.Float(0, 500, 800, 500);
         Line2D linD = new Line2D.Float(0, 500, 800, 500);
@@ -76,11 +97,7 @@ public class GUI extends JFrame implements ActionListener{
     }
 
 
-    //public void paint(Graphics g){
-    //    Image image = Toolkit.getDefaultToolkit().getImage("C:\\Users\\˼ң\\IdeaProjects\\FinalProject\\src\\bg.jpg");
-    //    g.drawImage(image, 100, 100, this);
-   // }
-
+   
     public static void main(String []args){
         GUI s=new GUI();
         s.setTitle("Game");
@@ -114,9 +131,9 @@ public class GUI extends JFrame implements ActionListener{
         s.setVisible(true);
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        c.show(panel,"Profile");
+    //@Override
+    //public void actionPerformed(ActionEvent e) {
+        //cardLayout.show(panel,"Profile");
         //JOptionPane.showMessageDialog(null, "This is the simple message dialog box.", "Roseindia.net", 1);
-    }
+    //}
 }
