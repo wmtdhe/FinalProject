@@ -16,7 +16,7 @@ public class GUI extends JFrame{
     public JPanel cardPanel;
     public CardLayout cardLayout = new CardLayout();
     public JPanel profile = new Profile();
-    public JPanel songSelection = new SongSelection();
+    public JPanel songSelection = new SongSelection(this);
     public GUI(){
         cardPanel = new JPanel();
         cardPanel.setLayout(cardLayout);
@@ -33,6 +33,7 @@ public class GUI extends JFrame{
 
             public void actionPerformed(ActionEvent e) {
                 cardLayout.show(cardPanel,"New Game");
+                setTitle("Song Selection");
             }
         });
 
@@ -41,6 +42,7 @@ public class GUI extends JFrame{
 
             public void actionPerformed(ActionEvent e) {
                 cardLayout.show(cardPanel,"Profile");
+                setTitle("Profile");
             }
         });
 
@@ -71,7 +73,7 @@ public class GUI extends JFrame{
         super.paint(g);
         Graphics2D g2 = (Graphics2D) g;
         //Image image = Toolkit.getDefaultToolkit().getImage("C:\\Users\\hq\\eclipse-workspace\\FinalProject.zip_expanded\\FinalProject-master\\src\\rhythmGame\\bg.jpg");
-        ImageIcon icon = new ImageIcon("C:\\Users\\hq\\eclipse-workspace\\FinalProject.zip_expanded\\FinalProject-master\\src\\rhythmGame\\bg.jpg",null);
+        ImageIcon icon = new ImageIcon("C:\\Users\\思遥\\IdeaProjects\\FinalProject\\src\\rhythmGame\\g.jpg",null);
         Image before = icon.getImage();
         Image newImage = before.getScaledInstance(800, 600, Image.SCALE_SMOOTH);
         ImageIcon newIcon = new ImageIcon(newImage);
@@ -139,7 +141,6 @@ public class GUI extends JFrame{
 
     //@Override
     //public void actionPerformed(ActionEvent e) {
-        //cardLayout.show(panel,"Profile");
-        //JOptionPane.showMessageDialog(null, "This is the simple message dialog box.", "Roseindia.net", 1);
-    }
+    //cardLayout.show(panel,"Profile");
+    //JOptionPane.showMessageDialog(null, "This is the simple message dialog box.", "Roseindia.net", 1);
 }
