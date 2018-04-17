@@ -1,16 +1,12 @@
 package rhythmGame;
 
 import javax.swing.*;
-import java.util.concurrent.TimeUnit;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.geom.Line2D;
-import javax.swing.ImageIcon;
-import java.awt.Font;    
-import java.awt.FontMetrics;  
 
 /**
  * @author szheng20, lechang3
@@ -104,7 +100,7 @@ public class GUI extends JFrame{
         super.paint(g);
         Graphics2D g2 = (Graphics2D) g;
         //Resize background image
-        ImageIcon icon = new ImageIcon("C:\\Users\\hq\\eclipse-workspace\\FinalProject.zip_expanded\\FinalProject-master\\src\\rhythmGame\\bg.jpg",null);
+        ImageIcon icon = new ImageIcon("C:\\Users\\思遥\\IdeaProjects\\FinalProject\\src\\rhythmGame\\bg.jpg",null);
         Image before = icon.getImage();
         Image newImage = before.getScaledInstance(800, 600, Image.SCALE_SMOOTH);
         ImageIcon newIcon = new ImageIcon(newImage);
