@@ -7,14 +7,14 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.geom.Line2D;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 
 /**
  * @author szheng20
  */
 
 public class GUI extends JFrame{
-    //public JFrame window;
-    //public JPanel myPanel;
     public JPanel cardPanel;
     public CardLayout cardLayout = new CardLayout();
     public JPanel profile = new Profile();
@@ -47,14 +47,19 @@ public class GUI extends JFrame{
         });
         
         
-        
-        JPanel buttonPanel=new JPanel();
-        buttonPanel.add(newGame);
-        buttonPanel.add(profileButton);
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridwidth = GridBagConstraints.REMAINDER;
+        gbc.anchor = GridBagConstraints.SOUTH;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        JPanel buttonPanel=new JPanel(new GridBagLayout());
+        buttonPanel.add(newGame,gbc);
+        buttonPanel.add(profileButton,gbc);
         
         cardPanel.add(buttonPanel);
         cardPanel.add(songSelection, "New Game");
         cardPanel.add(profile,"Profile");
+        cardPanel.setBackground(new Color(0,0,0,0));
+        this.add(cardPanel,BorderLayout.CENTER);
         
         
     }
@@ -67,7 +72,12 @@ public class GUI extends JFrame{
     public void paint(Graphics g) {
         super.paint(g);
         Graphics2D g2 = (Graphics2D) g;
-      
+        //Image image = Toolkit.getDefaultToolkit().getImage("C:\\Users\\hq\\eclipse-workspace\\FinalProject.zip_expanded\\FinalProject-master\\src\\rhythmGame\\bg.jpg");
+        ImageIcon icon = new ImageIcon("C:\\Users\\hq\\eclipse-workspace\\FinalProject.zip_expanded\\FinalProject-master\\src\\rhythmGame\\bg.jpg",null);
+        Image before = icon.getImage();
+        Image newImage = before.getScaledInstance(800, 600, Image.SCALE_SMOOTH);
+        ImageIcon newIcon = new ImageIcon(newImage);
+        newImage = newIcon.getImage();
         Line2D linU = new Line2D.Float(0, 450, 800, 450);
         Line2D linB = new Line2D.Float(0, 500, 800, 500);
         Line2D linD = new Line2D.Float(0, 500, 800, 500);
@@ -76,7 +86,6 @@ public class GUI extends JFrame{
         Line2D lin3 = new Line2D.Float(400, 0, 400, 500);
         Line2D lin4 = new Line2D.Float(500, 0, 500, 500);
         Line2D lin5 = new Line2D.Float(600, 0, 600, 500);
-        //thickness and color
         g2.setStroke(new BasicStroke(6));
         g2.setColor(Color.BLACK);
         g2.draw(linU);
@@ -91,9 +100,8 @@ public class GUI extends JFrame{
         g2.drawString("F", 350, 475);
         g2.drawString("J", 450, 475);
         g2.drawString("K", 550, 475);
-        //g2.drawImage(image, 0, 0, this);
-        //System.out.println(image);
-        //this.panel.add(g2);
+        g2.drawImage(newImage, 0, 0, this);
+        
     }
 
 
