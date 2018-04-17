@@ -4,18 +4,23 @@ package tests;
  * Test coverage cannot reach 100% since exceptions cannot be manually made
  * @author lechang3
  */
-import static org.junit.Assert.*;
+//import static org.junit.Assert.*;
+
+import junit.framework.TestCase;
+import rhythmGame.Game;
 import rhythmGame.Notes;
+import rhythmGame.Song;
+
 import java.io.File;
 
-import org.junit.Test;
-import rhythmGame.Game;
-import rhythmGame.Song;
-public class GameTest {
+
+//import org.junit.Test;
+
+public class GameTest extends  TestCase{
 
 	
 	//test for loading an existing player's data
-	@Test
+	//@Test
 	public void testLoad() {
 		Game newGame = new Game("CL");
 		newGame.player.setCount();
@@ -29,7 +34,7 @@ public class GameTest {
 	
 	
 	//test for storing two different player's data
-	@Test
+	//@Test
 	public void testStorage() {
 		Game newGame = new Game("CL");
 		newGame.player.setHighScore(35);
@@ -44,7 +49,7 @@ public class GameTest {
 	}
 	
 	//test for storing song data
-	@Test
+	//@Test
 	public void testSongStorage() {
 		Game newGame = new Game("Hi");
 		Notes[] notes = new Notes[10];

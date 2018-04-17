@@ -2,6 +2,8 @@ package rhythmGame;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.geom.Line2D;
@@ -10,19 +12,30 @@ import java.awt.geom.Line2D;
  * @author szheng20
  */
 
-public class GUI extends JFrame{
+public class GUI extends JFrame implements ActionListener{
     //public JFrame window;
     //public JPanel myPanel;
+    public JPanel panel;
+    public CardLayout c;
+    public JPanel t;
     public GUI(){
-        JPanel panel=new JPanel();
-        panel.setLayout(new OverlayLayout(panel));
+         panel=new JPanel();
+         c=new CardLayout();
+        panel.setLayout(c);
 
         getContentPane().add(panel);
         setSize(800,600);
 
-        //JButton button =new JButton("press");
-        //panel.add(button);
-        //button.addActionListener(this);
+        JButton button =new JButton("Profile");
+        JPanel panel1=new JPanel();
+        panel1.add(button,"asdw");
+        button.addActionListener(this);
+        panel.add(panel1);
+        //new panel screen
+        t=new Profile();
+        panel.add(t,"Profile");
+        //this.getContentPane();
+        //panel.add(paint(g));
     }
 
     /**
@@ -33,7 +46,7 @@ public class GUI extends JFrame{
     public void paint(Graphics g) {
         super.paint(g);
         Graphics2D g2 = (Graphics2D) g;
-        Image image = Toolkit.getDefaultToolkit().getImage("C:\\\\Users\\\\˼ң\\\\IdeaProjects\\\\FinalProject\\\\src\\\\bg.jpg");
+       // Image image = Toolkit.getDefaultToolkit().getImage("C:\\\\Users\\\\˼ң\\\\IdeaProjects\\\\FinalProject\\\\src\\\\bg.jpg");
         Line2D linU = new Line2D.Float(0, 450, 800, 450);
         Line2D linB = new Line2D.Float(0, 500, 800, 500);
         Line2D linD = new Line2D.Float(0, 500, 800, 500);
@@ -59,6 +72,7 @@ public class GUI extends JFrame{
         g2.drawString("K", 550, 475);
         //g2.drawImage(image, 0, 0, this);
         //System.out.println(image);
+        //this.panel.add(g2);
     }
 
 
@@ -69,7 +83,7 @@ public class GUI extends JFrame{
 
     public static void main(String []args){
         GUI s=new GUI();
-        s.setTitle("Rhythm Game");
+        s.setTitle("Game");
         s.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         s.addKeyListener(new KeyListener() {
             @Override
@@ -100,4 +114,9 @@ public class GUI extends JFrame{
         s.setVisible(true);
     }
 
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        c.show(panel,"Profile");
+        //JOptionPane.showMessageDialog(null, "This is the simple message dialog box.", "Roseindia.net", 1);
+    }
 }

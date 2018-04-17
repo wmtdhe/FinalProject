@@ -1,19 +1,20 @@
 
 package tests;
 
-import static org.junit.Assert.*;
+//import static org.junit.Assert.*;
+import junit.framework.TestCase;
 import rhythmGame.Player;
 
-import org.junit.Test;
+//import org.junit.Test;
 
 /**
  * Tests for backend functions in Player class
  * @author lechang3
  *
  */
-public class PlayerTest {
+public class PlayerTest extends TestCase{
 
-	@Test
+	//@Test
 	public void testBasics() {
 		Player p = new Player("CL");
 		p.setCount();
@@ -23,7 +24,7 @@ public class PlayerTest {
 	
 	
 	//Test the setters of the score records
-	@Test
+	//@Test
 	public void testModifyScore() {
 		Player p = new Player("CL");
 		p.setFirstScores(35);
@@ -38,7 +39,7 @@ public class PlayerTest {
 	
 	
 	//Test the update of achievements
-	@Test
+	//@Test
 	public void testAchievements() {
 		Player p = new Player("CL");
 		p.setHighScore(300000);
