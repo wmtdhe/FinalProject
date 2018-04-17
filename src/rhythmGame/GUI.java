@@ -25,10 +25,15 @@ public class GUI extends JFrame{
     //cards
     public JPanel profile = new Profile();
     public JPanel songSelection = new SongSelection(this);
-    public Credit credit = new Credit(this.cardLayout,this.cardPanel);
+    public JPanel credit = new Credit(); 
+    
+    public String name;
     
     
     public GUI(){
+    	
+    	name = JOptionPane.showInputDialog("Please tell me your name");
+    	
         cardPanel = new JPanel();
         cardPanel.setLayout(cardLayout);
 
@@ -54,13 +59,16 @@ public class GUI extends JFrame{
         profileButton.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
-                cardLayout.show(cardPanel,"Profile");
+            	cardLayout.show(cardPanel,"Profile");
             }
         });
         
         creditButton.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
+            	//credit is runnable so we need to reset it everytime
+            	credit = new Credit();
+            	cardPanel.add(credit,"Credit");
                 cardLayout.show(cardPanel,"Credit");
                 
             }

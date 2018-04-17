@@ -22,8 +22,9 @@ public class Credit extends JPanel {
 	//bottom line
 	private int posY = 600;
 	
-	public Credit(CardLayout c, JPanel control) {   
-	        setPreferredSize(new Dimension(800, 600));  
+	public Credit() {   
+	        setPreferredSize(new Dimension(800, 600)); 
+	        posY = 600;
 	        new Thread(new Runnable() {  
 	            @Override  
 	            public void run() {  
@@ -34,6 +35,7 @@ public class Credit extends JPanel {
 	                        repaint();  
 	                        Thread.sleep(50);
 	                        if(posY<=-400) {
+	                        	posY = 600;
 	                        	setVisible(false);
 	                    		//c.show(control, "Start Menu");
 	                    		break;
@@ -74,7 +76,7 @@ public class Credit extends JPanel {
 	
 	   public static void main(String []args){
 		   JFrame test = new JFrame();
-		   Credit credit = new Credit(null,null);
+		   Credit credit = new Credit();
 		   test.add(credit);
 		   test.setVisible(true);
 		   test.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
