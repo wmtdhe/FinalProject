@@ -7,44 +7,59 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.geom.Line2D;
-import java.io.IOException;
 
 /**
  * @author szheng20
  */
 
-public class GUI extends JFrame implements ActionListener{
-    //public JFrame window;
-    //public JPanel myPanel;
-    public JPanel panel;
-    public CardLayout c;
-    public JPanel t;
-    public GUI() throws IOException {
-         panel=new JPanel();
-         c=new CardLayout();
-        panel.setLayout(c);
+public class GUI extends JFrame{
+    public JPanel cardPanel;
+    public CardLayout cardLayout = new CardLayout();
+    public JPanel profile = new Profile();
+    public JPanel songSelection = new SongSelection();
+    public GUI(){
+        cardPanel = new JPanel();
+        cardPanel.setLayout(cardLayout);
 
-
+        getContentPane().add(cardPanel,BorderLayout.SOUTH);
         setSize(800,600);
 
-        JButton button =new JButton("Profile");
-        JPanel panel1=new JPanel();
-        panel1.add(button,"asdw");
-        button.addActionListener(this);
-        panel.add(panel1,"main");
-        //new panel screen
-        t=new Profile();
-        panel.add(t,"Profile");
+        JButton newGame =  new JButton("New Game");
+        JButton profileButton =new JButton("Profile");
 
-        //pack();
-        //this.getContentPane();
-        //panel.add(paint(g));
-        //JLabel bg = new JLabel();
-        //JLabel background = new JLabel(new ImageIcon("C:\\Users\\思遥\\IdeaProjects\\FinalProject\\src\\rhythmGame\\bg.jpg"));
-        //setContentPane(background);
-        //panel.setOpaque(false);
-        //c.show(panel,"main");
-        getContentPane().add(panel);
+
+
+        newGame.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+                cardLayout.show(cardPanel,"New Game");
+            }
+        });
+
+
+        profileButton.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+                cardLayout.show(cardPanel,"Profile");
+            }
+        });
+
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridwidth = GridBagConstraints.REMAINDER;
+        gbc.anchor = GridBagConstraints.SOUTH;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        JPanel buttonPanel=new JPanel(new GridBagLayout());
+        buttonPanel.add(newGame,gbc);
+        buttonPanel.add(profileButton,gbc);
+
+        cardPanel.add(buttonPanel);
+        cardPanel.add(songSelection, "New Game");
+        cardPanel.add(profile,"Profile");
+        cardPanel.setBackground(new Color(0,0,0,0));
+        this.add(cardPanel,BorderLayout.CENTER);
+
+
     }
 
     /**
@@ -55,7 +70,12 @@ public class GUI extends JFrame implements ActionListener{
     public void paint(Graphics g) {
         super.paint(g);
         Graphics2D g2 = (Graphics2D) g;
-        Image image = Toolkit.getDefaultToolkit().getImage("C:\\Users\\思遥\\IdeaProjects\\FinalProject\\src\\rhythmGame\\bg.jpg");
+        //Image image = Toolkit.getDefaultToolkit().getImage("C:\\Users\\hq\\eclipse-workspace\\FinalProject.zip_expanded\\FinalProject-master\\src\\rhythmGame\\bg.jpg");
+        ImageIcon icon = new ImageIcon("C:\\Users\\hq\\eclipse-workspace\\FinalProject.zip_expanded\\FinalProject-master\\src\\rhythmGame\\bg.jpg",null);
+        Image before = icon.getImage();
+        Image newImage = before.getScaledInstance(800, 600, Image.SCALE_SMOOTH);
+        ImageIcon newIcon = new ImageIcon(newImage);
+        newImage = newIcon.getImage();
         Line2D linU = new Line2D.Float(0, 450, 800, 450);
         Line2D linB = new Line2D.Float(0, 500, 800, 500);
         Line2D linD = new Line2D.Float(0, 500, 800, 500);
@@ -64,33 +84,27 @@ public class GUI extends JFrame implements ActionListener{
         Line2D lin3 = new Line2D.Float(400, 0, 400, 500);
         Line2D lin4 = new Line2D.Float(500, 0, 500, 500);
         Line2D lin5 = new Line2D.Float(600, 0, 600, 500);
-        //thickness and color
-        //g2.setStroke(new BasicStroke(6));
-        //g2.setColor(Color.BLACK);
-        //g2.draw(linU);
-        //g2.draw(linB);
-        //g2.draw(lin1);
-        //g2.draw(lin2);
-        //g2.draw(lin3);
-        //g2.draw(lin4);
-        //g2.draw(lin5);
+        g2.setStroke(new BasicStroke(6));
+        g2.setColor(Color.BLACK);
+        g2.draw(linU);
+        g2.draw(linB);
+        g2.draw(lin1);
+        g2.draw(lin2);
+        g2.draw(lin3);
+        g2.draw(lin4);
+        g2.draw(lin5);
         //
-        //g2.drawString("D", 250, 475);
-        //g2.drawString("F", 350, 475);
-        //g2.drawString("J", 450, 475);
-        //g2.drawString("K", 550, 475);
-        //g2.drawImage(image, 0, 0, this);
-        //System.out.println(image);
-        //this.panel.add(g2);
+        g2.drawString("D", 250, 475);
+        g2.drawString("F", 350, 475);
+        g2.drawString("J", 450, 475);
+        g2.drawString("K", 550, 475);
+        g2.drawImage(newImage, 0, 0, this);
+
     }
 
 
-    //public void paint(Graphics g){
-    //    Image image = Toolkit.getDefaultToolkit().getImage("C:\\Users\\˼ң\\IdeaProjects\\FinalProject\\src\\bg.jpg");
-    //    g.drawImage(image, 100, 100, this);
-   // }
 
-    public static void main(String []args) throws IOException {
+    public static void main(String []args){
         GUI s=new GUI();
         s.setTitle("Game");
         s.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -121,13 +135,11 @@ public class GUI extends JFrame implements ActionListener{
             }
         });
         s.setVisible(true);
-
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        c.show(panel,"Profile");
-        this.setTitle("Profile");
+    //@Override
+    //public void actionPerformed(ActionEvent e) {
+        //cardLayout.show(panel,"Profile");
         //JOptionPane.showMessageDialog(null, "This is the simple message dialog box.", "Roseindia.net", 1);
     }
 }
