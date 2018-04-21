@@ -8,9 +8,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.geom.Line2D;
-import javax.swing.ImageIcon;
-import java.awt.Font;    
-import java.awt.FontMetrics;  
+import javax.swing.ImageIcon;  
 
 /**
  * @author szheng20, lechang3
@@ -28,13 +26,15 @@ public class GUI extends JFrame{
     public JPanel credit = new Credit(); 
     
     public String name;
+    public Boolean gameOn = true;
+    
     
     
     public GUI(){
     	
     	name = JOptionPane.showInputDialog("Please tell me your name");
     	
-        cardPanel = new JPanel();
+    	cardPanel = new JPanel();
         cardPanel.setLayout(cardLayout);
 
         getContentPane().add(cardPanel,BorderLayout.SOUTH);
@@ -86,12 +86,33 @@ public class GUI extends JFrame{
         gbc.gridwidth = GridBagConstraints.REMAINDER;
         gbc.anchor = GridBagConstraints.SOUTH;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        JPanel buttonPanel=new JPanel(new GridBagLayout());
-        buttonPanel.add(newGame,gbc);
-        buttonPanel.add(profileButton,gbc);
-        buttonPanel.add(creditButton,gbc);
-        buttonPanel.add(Exit,gbc);
-        cardPanel.add(buttonPanel, "Start Menu");
+        JPanel menu=new JPanel(new GridBagLayout()) {
+        	private static final long serialVersionUID = 1L; 
+        	@Override
+       	 	protected void paintComponent(Graphics g) {
+        		super.paintComponent(g);
+        		
+        		//draw background
+        		ImageIcon icon = new ImageIcon("C:\\Users\\hq\\eclipse-workspace\\FinalProject.zip_expanded\\FinalProject-master\\src\\rhythmGame\\bg.jpg",null);
+        		Image before = icon.getImage();
+        		Image newImage = before.getScaledInstance(800, 600, Image.SCALE_SMOOTH);
+        		ImageIcon newIcon = new ImageIcon(newImage);
+        		newImage = newIcon.getImage();
+        		g.drawImage(newImage, 0, 0, null);
+       	    
+       	    
+        		//draw title
+        		g.setColor(Color.WHITE);
+        		Font font = new Font("Consolas", Font.PLAIN, 50); 
+        		g.setFont(font);
+        		g.drawString("Rhythm Game!", 250, 150);
+       	}
+        };
+        menu.add(newGame,gbc);
+        menu.add(profileButton,gbc);
+        menu.add(creditButton,gbc);
+        menu.add(Exit,gbc);
+        cardPanel.add(menu, "Start Menu");
         cardPanel.add(songSelection, "New Game");
         cardPanel.add(profile,"Profile");
         cardPanel.add(credit,"Credit");
@@ -104,12 +125,15 @@ public class GUI extends JFrame{
     }
 
     /**
+    /**
      * set up game frame
      * @param g
-     */
+     
 
     public void paint(Graphics g) {
+    	
         super.paint(g);
+        
         Graphics2D g2 = (Graphics2D) g;
         //Resize background image
         ImageIcon icon = new ImageIcon("C:\\Users\\hq\\eclipse-workspace\\FinalProject.zip_expanded\\FinalProject-master\\src\\rhythmGame\\bg.jpg",null);
@@ -145,14 +169,10 @@ public class GUI extends JFrame{
         //draw background
         g2.drawImage(newImage, 0, 0, this);
         
-        //draw title
-        g.setColor(Color.WHITE);
-        Font font = new Font("Consolas", Font.PLAIN, 50); 
-        g.setFont(font);
-        g.drawString("Rhythm Game!", 250, 150);
+        
         
     }
-
+ **/
 
    
     public static void main(String []args){
@@ -166,18 +186,21 @@ public class GUI extends JFrame{
             }
             @Override
             public void keyPressed(KeyEvent e) {
-                if(e.getKeyCode() == KeyEvent.VK_J){
-                    System.out.println("J");
-                }
-                if(e.getKeyCode() == KeyEvent.VK_K){
-                    System.out.println("K");
-                }
-                if(e.getKeyCode() == KeyEvent.VK_D){
-                    System.out.println("D");
-                }
-                if(e.getKeyCode() == KeyEvent.VK_F){
-                    System.out.println("F");
-                }
+            	
+            		
+            		if(e.getKeyCode() == KeyEvent.VK_J){
+            			System.out.println("J");
+            		}
+            		if(e.getKeyCode() == KeyEvent.VK_K){
+            			System.out.println("K");
+            		}
+            		if(e.getKeyCode() == KeyEvent.VK_D){
+            			System.out.println("D");
+            		}
+            		if(e.getKeyCode() == KeyEvent.VK_F){
+            			System.out.println("F");
+            		}
+            	
 
             }
             @Override
