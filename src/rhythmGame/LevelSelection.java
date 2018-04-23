@@ -38,10 +38,10 @@ public class LevelSelection extends JPanel implements ActionListener{
         normal.addActionListener(this);
         expert.addActionListener(this);
         back.addActionListener(this);
-        mainGame = new MainGameScreen(lf,null);
+        //mainGame = new MainGameScreen(lf,null);
 
         add(levels,"level");
-        add(mainGame,"game");
+        //add(mainGame,"game");
         
     }
 

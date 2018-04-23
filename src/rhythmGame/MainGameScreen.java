@@ -1,6 +1,7 @@
 package rhythmGame;
 
 import javax.swing.*;
+import sun.audio.*;
 
 import java.awt.*;
 import java.awt.geom.Line2D;
@@ -8,11 +9,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.*;
 
 public class MainGameScreen extends JPanel implements ActionListener{
 	public JFrame window;
-	private int posY = 0;
+	private int yOffset = 0;
 	private int speed;
+	public AudioStream BGM;
+	public Song song;
+	public Notes[] notes = new Notes[0];
+	//public JPanel game;
 	
 	public MainGameScreen(JFrame window, String level) {
 		this.setLayout(null);
@@ -22,33 +28,83 @@ public class MainGameScreen extends JPanel implements ActionListener{
         backBut.setBounds(0, 0, 115, 30);
         backBut.add(back);
         backBut.setBackground(new Color(0,0,0,0));
+       
+
+        this.song = new Song(notes,null);
+        this.song.mapFirstSong();
+        notes = this.song.notes;
         
         add(backBut);
         
         //adjust speed
-        if(level == "Easy")speed = 4;
-        if(level == "Normal")speed = 8;
-        if(level == "Expert")speed = 12;
+        if(level == "Easy")speed = 2;
+        if(level == "Normal")speed = 3;
+        if(level == "Expert")speed = 4;
         
+        
+      //another thread plays music
+        new Thread(new Runnable() {
+        	@Override
+        	public void run() {
+        		music();
+        	}
+        }).start();
         
         new Thread(new Runnable() {  
             @Override  
-            public void run() {  
-                try {  
+            public void run() {
+                try {
+                	//float start = System.nanoTime();
                     while(true){ 
                     	//Bars goes downwards
-                        posY = posY + speed;  
-                        repaint();  
-                        Thread.sleep(50);
-                        
-                    }  
-                } catch (InterruptedException e) {  
-                    e.printStackTrace();  
-                }  
-            }  
-        }).start();  
+                    	//if((System.nanoTime()-start)>=20000000){
+                    		//start = System.nanoTime();
+                    		yOffset = yOffset + speed;
+                    		repaint();
+                    		
+                    	//}
+                        Thread.sleep(20);
+                   }
+                }catch (InterruptedException e) {
+                	   e.printStackTrace();
+                   }
+            }
+                
+            
+        }).start();
+        
+        
         
         setVisible(true);  
+        window.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+
+            }
+            @Override
+            public void keyPressed(KeyEvent e) {
+            	
+            		
+            		if(e.getKeyCode() == KeyEvent.VK_J){
+            			System.out.println("J");
+            		}
+            		if(e.getKeyCode() == KeyEvent.VK_K){
+            			System.out.println("K");
+            		}
+            		if(e.getKeyCode() == KeyEvent.VK_D){
+            			System.out.println("D");
+            		}
+            		if(e.getKeyCode() == KeyEvent.VK_F){
+            			System.out.println("F");
+            		}
+            	
+
+            }
+            @Override
+            public void keyReleased(KeyEvent e) {
+
+            }
+        });
       
         
         
@@ -63,7 +119,6 @@ public class MainGameScreen extends JPanel implements ActionListener{
 		super.paintComponent(g);
 		
 		Graphics2D g2 = (Graphics2D) g;
-		Graphics2D g3 = (Graphics2D) g;
 		//draw background
 		ImageIcon icon = new ImageIcon("C:\\Users\\hq\\eclipse-workspace\\FinalProject.zip_expanded\\FinalProject-master\\src\\rhythmGame\\bg.jpg",null);
 		Image before = icon.getImage();
@@ -100,24 +155,62 @@ public class MainGameScreen extends JPanel implements ActionListener{
         g.drawString("J", 450, 475);
         g.drawString("K", 550, 475);
         
+       
+        paintBars(g2);
+       
         
-        
-        
-        
-        //bars
-        g3.setColor(Color.YELLOW);
-        g3.fillRect(202, posY, 95, 30);
 	}
+	
+	public void paintBars(Graphics g) {
+		 //bars
+        g.setColor(Color.YELLOW);
+        for (int i = 0; i<this.song.notes.length;i++) {
+        	if(notes[i].y+yOffset>-30)g.fillRect(notes[i].x, notes[i].y+yOffset, 95, 30);
+        }
+        
+		
+	}
+	
+	
+	
 	
 	@Override
     public void actionPerformed(ActionEvent e) {
     	 JButton b = (JButton)e.getSource();
          if(b.getText().equals("Back")) {
+        	 AudioPlayer.player.stop(BGM);
              this.setVisible(false);
          }
          else{
        
          }
+    }
+	
+	
+	public void music() 
+    {       
+        AudioPlayer MGP = AudioPlayer.player;
+        //AudioStream BGM;
+        AudioData MD;
+
+        ContinuousAudioDataStream loop = null;
+
+        try
+        {
+            InputStream test = new FileInputStream("C:\\Users\\hq\\eclipse-workspace\\FinalProject.zip_expanded\\FinalProject-master\\src\\rhythmGame\\FREELY_TOMORROW.wav");
+            this.BGM = new AudioStream(test);
+            AudioPlayer.player.start(BGM);
+            
+           
+        }
+        catch(FileNotFoundException e){
+        	e.printStackTrace();
+        }
+        catch(IOException error)
+        {
+        	error.printStackTrace();
+        }
+        MGP.start();
     }
 
 	
