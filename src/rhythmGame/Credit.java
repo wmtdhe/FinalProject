@@ -17,6 +17,11 @@ public class Credit extends JPanel {
 	public static String str3 = "Images:";
 	public static String str4 = "https://pixabay.com/en/milky-way-starry-sky-ni";
 	public static String str5 = "ght-sky-star-2695569/";
+	public static String str6 = "http://3.bp.blogspot.com/-pypNkieEj9w/UqE4bDi7";
+	public static String str7 = "GdI/AAAAAAAACxY/7DqkqaHNuKA/w1200-h630-p-k-no-nu";
+	public static String str8 = "/Realistic_virtual_singing.png";
+	public static String str9 = "Music:";
+	public static String str10 = "'Freely Tomorrow' -- Mitchie M feat Hatsune Miku";
 	private static final long serialVersionUID = 1L; 
 	
 	//bottom line
@@ -51,7 +56,7 @@ public class Credit extends JPanel {
 	    }  
 	   
 	   @Override  
-       public void paint(Graphics g) {
+       public void paintComponent(Graphics g) {
 		   //set fonts
            g.setColor(Color.BLACK);  
            g.fillRect(0, 0, getWidth(), getHeight());  
@@ -67,7 +72,11 @@ public class Credit extends JPanel {
            g.drawString(str3, 0, posY+strHeight*2+100);
            g.drawString(str4, 0, posY+strHeight*3+200);
            g.drawString(str5, 0, posY+strHeight*4+200);
-           
+           g.drawString(str6, 0, posY+strHeight*4+300+10);
+           g.drawString(str7, 0, posY+strHeight*5+300+10);
+           g.drawString(str8, 0, posY+strHeight*6+300+10);
+           g.drawString(str9, 0, posY+strHeight*6+400);
+           g.drawString(str10, 0, posY+strHeight*6+500);
        }  
        //@Override  
        public void update(Graphics g) {  
