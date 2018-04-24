@@ -10,11 +10,14 @@ public class Song {
 	public int health;
 	public int score;
 	public String name;
+	public int speed = 2;
 	//combo implementation in the future
 	public Song(Notes[] notes, String name){
 		this.notes=notes; //manually mapped beats
 		this.health=100; //full
 		this.name = name;
+		
+		
 	}
 	/**
 	 * deduct health if players miss beats
@@ -43,9 +46,12 @@ public class Song {
 		}
 		return true;
 	}
+	public void mapFirstSongEasy() {
+		this.speed = 2;
+	}
 	
-	
-	public void mapFirstSong() {
+	public void mapFirstSongNormal() {
+		this.speed = 3;
 		addNote(1,5920);
 		addNote(2,6179);
 		addNote(3,6592);
@@ -86,7 +92,7 @@ public class Song {
 		addNote(2,46385);
 		addNote(3,46630);
 		addNote(4,46857);
-		/**
+		
 		addNote(1,48024);
 		addNote(2,48437);
 		addNote(3,48850);
@@ -106,7 +112,43 @@ public class Song {
 		addNote(3,57440);
 		addNote(4,57647);
 		
-		**/
+		addNote(1,58958);
+		addNote(2,58958);
+		addNote(3,59888);
+		addNote(4,59888);
+		addNote(1,60827);
+		addNote(2,61287);
+		addNote(3,61509);
+		addNote(4,61715);
+		
+		addNote(1,62220);
+		addNote(2,62444);
+		addNote(3,62660);
+		
+		addNote(2,63137);
+		addNote(3,63345);
+		addNote(4,63555);
+		
+		addNote(2,64075);
+		addNote(3,64285);
+		addNote(4,64495);
+		
+		addNote(3,65930);
+		addNote(4,66050);
+		addNote(3,66176);
+		addNote(4,66289);
+		
+		//satoori
+		addNote(1,67347);
+		addNote(4,67783);
+		addNote(3,68253);
+		addNote(1,69184);
+		addNote(2,69419);
+		addNote(3,69638);
+		addNote(4,69984);
+		addNote(3,70109);
+		
+		
 	}
 	
 	private int find(int time, float next) {
@@ -120,7 +162,7 @@ public class Song {
 		if(pos == 2)x = 302;
 		if(pos == 3)x = 402;
 		if(pos == 4)x = 502;
-		Notes note = new Notes(x,450-(nanosec/20)*2);
+		Notes note = new Notes(x,450-(nanosec/20)*(this.speed));
 		add(note);
 	}
 	
@@ -134,10 +176,6 @@ public class Song {
 		this.notes = now;
 	}
 	
-	public void increaseY() {
-		for(int i = 0; i<this.notes.length;i++) {
-			this.notes[i].y +=2;
-		}
-	}
+	
 
 }
