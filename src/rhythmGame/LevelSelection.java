@@ -15,12 +15,26 @@ public class LevelSelection extends JPanel implements ActionListener{
     public JFrame lf;
     public JPanel mainGame;
     public String songName;
+
+	private static final long serialVersionUID = 1L; 
     public LevelSelection(JFrame frame, String songName){
-        this.songName=songName;
         lf=frame;
         c = new CardLayout();
+        this.songName = songName;
         setLayout(c);
-        JPanel levels = new JPanel();
+        JPanel levels = new JPanel() {
+        	@Override
+        	protected void paintComponent(Graphics g) {
+        		super.paintComponent(g);
+        		//draw background
+        		ImageIcon icon = new ImageIcon("C:\\Users\\hq\\eclipse-workspace\\FinalProject.zip_expanded\\FinalProject-master\\src\\rhythmGame\\bg.jpg",null);
+        		Image before = icon.getImage();
+        		Image newImage = before.getScaledInstance(800, 600, Image.SCALE_SMOOTH);
+        		ImageIcon newIcon = new ImageIcon(newImage);
+        		newImage = newIcon.getImage();
+        		g.drawImage(newImage, 0, 0, null);
+            }
+        };
         levels.setLayout(null);
 
         JButton easy = new JButton("Easy");
@@ -40,24 +54,27 @@ public class LevelSelection extends JPanel implements ActionListener{
         normal.addActionListener(this);
         expert.addActionListener(this);
         back.addActionListener(this);
-        //mainGame = new MainGameScreen(lf,null);
+        
 
         add(levels,"level");
-        //add(mainGame,"game");
+        setVisible(true);
         
     }
+    
+    
 
     @Override
     public void actionPerformed(ActionEvent e) {
     	 JButton b = (JButton)e.getSource();
+    	 
          if(b.getText().equals("Back")) {
              this.setVisible(false);
          }
          else{
-        	 mainGame = new MainGameScreen(lf,b.getText(),songName);
+        	 mainGame = new MainGameScreen(lf,b.getText(),this.songName);
         	 add(mainGame,"game");
         	 c.show(this,"game");
-        	 lf.setTitle(songName);
+        	 lf.setTitle("Game on");
          }
     }
 }
