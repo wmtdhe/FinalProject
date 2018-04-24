@@ -14,7 +14,9 @@ public class LevelSelection extends JPanel implements ActionListener{
     public CardLayout c;
     public JFrame lf;
     public JPanel mainGame;
-    public LevelSelection(JFrame frame){
+    public String songName;
+    public LevelSelection(JFrame frame, String songName){
+        this.songName=songName;
         lf=frame;
         c = new CardLayout();
         setLayout(c);
@@ -52,10 +54,10 @@ public class LevelSelection extends JPanel implements ActionListener{
              this.setVisible(false);
          }
          else{
-        	 mainGame = new MainGameScreen(lf,b.getText());
+        	 mainGame = new MainGameScreen(lf,b.getText(),songName);
         	 add(mainGame,"game");
         	 c.show(this,"game");
-        	 lf.setTitle("Game on");
+        	 lf.setTitle(songName);
          }
     }
 }
