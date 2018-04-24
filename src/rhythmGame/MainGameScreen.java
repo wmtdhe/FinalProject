@@ -19,6 +19,8 @@ public class MainGameScreen extends JPanel implements ActionListener{
     public Song song;
     public Notes[] notes = new Notes[0];
     public String songName;
+    public JPanel scoreBar;
+    public JLabel scoreContent;
     //public JPanel game;
 
     public MainGameScreen(JFrame window, String level, String songName) {
@@ -31,6 +33,13 @@ public class MainGameScreen extends JPanel implements ActionListener{
         backBut.setBounds(0, 0, 115, 30);
         backBut.add(back);
         backBut.setBackground(new Color(0,0,0,0));
+        //------
+        scoreBar=new JPanel();
+        scoreContent=new JLabel("Score: 0");
+        scoreBar.add(scoreContent);
+        scoreBar.setBounds(0,100,200,200);
+        add(scoreBar);
+
 
         //load mapping
         this.song = new Song(notes,songName);
@@ -103,20 +112,20 @@ public class MainGameScreen extends JPanel implements ActionListener{
 
 
             		if(e.getKeyCode() == KeyEvent.VK_J){
-            		    k=74;
-
+            		    //k=74;
+                        // x in first column
                         findLabel(402);
             		}
             		if(e.getKeyCode() == KeyEvent.VK_K){
-            		    k=75;
+            		    //k=75;
                         findLabel(502);
             		}
             		if(e.getKeyCode() == KeyEvent.VK_D){
-            		    k=68;
+            		    //k=68;
                         findLabel(202);
             		}
             		if(e.getKeyCode() == KeyEvent.VK_F){
-            		    k=70;
+            		    //k=70;
                         findLabel(302);
             		}
 
@@ -279,12 +288,18 @@ public class MainGameScreen extends JPanel implements ActionListener{
 
     }
 
+    /**
+     * find if there are blocks inside the target area
+     * @param i
+     */
     public void findLabel(int i) {
         for (int j = 0; j<notes.length; j++ ) {
            // Rectangle r = bars[j].getBounds();
-            if(notes[j].x==i && notes[j].y>430 & notes[j].y<500) {
+            if(notes[j].x==i & notes[j].y>430 & notes[j].y<500 & notes[j].guo==0) {
                 //bars[j].setVisible(false);
-                song.score+=1;
+                notes[j].guo=1;
+                song.score+=100;
+                scoreContent.setText("Score: "+Integer.toString(song.score));
                 System.out.println(k);
                 return;
             }
