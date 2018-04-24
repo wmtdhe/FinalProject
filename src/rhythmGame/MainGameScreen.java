@@ -18,6 +18,7 @@ public class MainGameScreen extends JPanel implements ActionListener{
 	public AudioStream BGM;
 	public Song song;
 	public Notes[] notes = new Notes[0];
+	public JLabel[] bars;
 	//public JPanel game;
 	
 	public MainGameScreen(JFrame window, String level, String songName) {
@@ -36,8 +37,14 @@ public class MainGameScreen extends JPanel implements ActionListener{
         	if(level.equals("Easy"))song.mapFirstSongEasy();
         }
         
+        ImageIcon image = new ImageIcon("C:\\Users\\hq\\eclipse-workspace\\FinalProject.zip_expanded\\FinalProject-master\\src\\rhythmGame\\yellow-rectangle-hi.png");
         notes = this.song.notes;
-        
+        bars = new JLabel[notes.length];
+        for (int i = 0;i<notes.length;i++) {
+        	bars[i] = new JLabel(image);
+        	bars[i].setVisible(true);
+        	this.add(bars[i]);
+        }
         add(backBut);
         
         //adjust speed
@@ -64,7 +71,7 @@ public class MainGameScreen extends JPanel implements ActionListener{
                     	//if((System.nanoTime()-start)>=20000000){
                     		//start = System.nanoTime();
                     		yOffset = yOffset + speed;
-                    		repaint();
+                    		paintBars();
                     		
                     	//}
                         Thread.sleep(20);
@@ -78,8 +85,6 @@ public class MainGameScreen extends JPanel implements ActionListener{
         }).start();
         
         
-        
-        setVisible(true);  
         window.addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
@@ -91,15 +96,21 @@ public class MainGameScreen extends JPanel implements ActionListener{
             		
             		if(e.getKeyCode() == KeyEvent.VK_J){
             			System.out.println("J");
+            			findLabel(402);
             		}
             		if(e.getKeyCode() == KeyEvent.VK_K){
             			System.out.println("K");
+            			findLabel(502);
+            			
             		}
             		if(e.getKeyCode() == KeyEvent.VK_D){
             			System.out.println("D");
+            			findLabel(202);
+            			
             		}
             		if(e.getKeyCode() == KeyEvent.VK_F){
             			System.out.println("F");
+            			findLabel(302);
             		}
             	
 
@@ -109,6 +120,11 @@ public class MainGameScreen extends JPanel implements ActionListener{
 
             }
         });
+        
+        setVisible(true);  
+        //start listening to the keys
+        window.setFocusable(true);
+        window.requestFocusInWindow();
       
         
         
@@ -134,7 +150,6 @@ public class MainGameScreen extends JPanel implements ActionListener{
 	    
 		Line2D linU = new Line2D.Float(0, 450, 800, 450);
         Line2D linB = new Line2D.Float(0, 500, 800, 500);
-        Line2D linD = new Line2D.Float(0, 500, 800, 500);
         Line2D lin1 = new Line2D.Float(200, 0, 200, 500);
         Line2D lin2 = new Line2D.Float(300, 0, 300, 500);
         Line2D lin3 = new Line2D.Float(400, 0, 400, 500);
@@ -160,16 +175,17 @@ public class MainGameScreen extends JPanel implements ActionListener{
         g.drawString("K", 550, 475);
         
        
-        paintBars(g2);
        
         
 	}
 	
-	public void paintBars(Graphics g) {
+	public void paintBars() {
 		 //bars
-        g.setColor(Color.YELLOW);
         for (int i = 0; i<this.song.notes.length;i++) {
-        	if(notes[i].y+yOffset>-30)g.fillRect(notes[i].x, notes[i].y+yOffset, 95, 30);
+        	//if(notes[i].y+yOffset>-30)g.fillRect(notes[i].x, notes[i].y+yOffset, 95, 30);
+        	if(notes[i].y+yOffset>0) {
+        		bars[i].setBounds(notes[i].x, notes[i].y+yOffset, 95, 30);
+        	}
         }
         
 		
@@ -194,8 +210,6 @@ public class MainGameScreen extends JPanel implements ActionListener{
 	public void music() 
     {       
         AudioPlayer MGP = AudioPlayer.player;
-        //AudioStream BGM;
-        AudioData MD;
 
         ContinuousAudioDataStream loop = null;
         InputStream test = null;
@@ -223,6 +237,17 @@ public class MainGameScreen extends JPanel implements ActionListener{
         }
         MGP.start(loop);
     }
+	
+	public void findLabel(int i) {
+		for (int j = 0; j<bars.length; j++ ) {
+			Rectangle r = bars[j].getBounds();
+			if(r.x==i && r.y>430) {
+				bars[j].setVisible(false);
+				return;
+			}
+		}
+		
+	}
 
 	
 }
