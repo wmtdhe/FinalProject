@@ -22,9 +22,9 @@ public class SongSelection extends JPanel implements ActionListener{
         previewImg1.setIcon(ResizedIcon("C:\\Users\\思遥\\IdeaProjects\\FinalProject\\src\\rhythmGame\\Realistic_virtual_singing.png",previewImg1));
         JLabel previewImg2 = new JLabel();
         previewImg2.setBounds(0,250,400,250);
-        previewImg2.setIcon(ResizedIcon("C:\\Users\\hq\\eclipse-workspace\\FinalProject.zip_expanded\\FinalProject-master\\src\\rhythmGame\\p2.jpg",previewImg2));
+        previewImg2.setIcon(ResizedIcon("C:\\Users\\思遥\\IdeaProjects\\FinalProject\\src\\rhythmGame\\yume.jpg",previewImg2));
         JButton song1 = new JButton("Freely Tomorrow");
-        JButton song2 = new JButton("Orange");
+        JButton song2 = new JButton("Yumetourou");
 
         song1.setBounds(400,0,400,250);
         song2.setBounds(400,250,400,250);
@@ -54,11 +54,11 @@ public class SongSelection extends JPanel implements ActionListener{
 
             sf.setTitle("Freely Tomorrow");
         }
-        else if(b.getText().equals("Orange")){
-            JPanel levelselection = new LevelSelection(sf,"orange");
+        else if(b.getText().equals("Yumetourou")){
+            JPanel levelselection = new LevelSelection(sf,"yumetourou");
             add(levelselection,"level");
             c.show(this, "level");
-            sf.setTitle("Orange");
+            sf.setTitle("Yumetourou");
         }
         else if(b.getText().equals("Back")) {
         	this.setVisible(false);

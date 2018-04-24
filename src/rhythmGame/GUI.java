@@ -179,6 +179,7 @@ public class GUI extends JFrame{
         GUI s=new GUI();
         s.setTitle("Game");
         s.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+       /*
         s.addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
@@ -208,6 +209,7 @@ public class GUI extends JFrame{
 
             }
         });
+        */
         s.setVisible(true);
     }
 

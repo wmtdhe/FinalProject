@@ -7,6 +7,7 @@ package rhythmGame;
 public class Notes {
     public int x;
     public int y;
+    public int original_y;
     public int pass;
     public int read;
     public int guo;
@@ -17,6 +18,7 @@ public class Notes {
         this.pass=0;
         this.read=0;
         this.guo=0;
+        this.original_y=y;
     }
 
     /**
