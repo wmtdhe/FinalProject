@@ -1,51 +1,55 @@
 package rhythmGame;
 
-import javax.sound.sampled.*;
 import javax.swing.*;
+import sun.audio.*;
 
 import java.awt.*;
-import java.awt.event.*;
 import java.awt.geom.Line2D;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.*;
-import java.net.URL;
 
 public class MainGameScreen extends JPanel implements ActionListener{
-    public JFrame window;
-    private int yOffset = 0;
-    public int k=0; //keyword hit
-    private int speed;
-    //public AudioStream BGM;
-    public Clip clip;
-    public Song song;
-    public Notes[] notes = new Notes[0];
-    public String songName;
-    public JPanel scoreBar;
-    public JLabel scoreContent;
-    //public JPanel game;
-
-    public MainGameScreen(JFrame window, String level, String songName) {
-        this.setLayout(null);
-        this.songName=songName;
-        this.window=window;
-        JPanel backBut = new JPanel();
+	public JFrame window;
+	private int yOffset = 0;//control the speed of falling notes
+	private int speed;
+	public AudioStream BGM;
+	public Song song;
+	public Notes[] notes = new Notes[0];
+	public JPanel scoreBar;
+	public JLabel scoreContent;
+	
+	
+	public MainGameScreen(JFrame window, String level, String songName) {
+		this.setLayout(null);
+		
+		//set up back button
+		JPanel backBut = new JPanel();
         JButton back = new JButton("Back");
         back.addActionListener(this);
         backBut.setBounds(0, 0, 115, 30);
         backBut.add(back);
         backBut.setBackground(new Color(0,0,0,0));
-        //------
+        add(backBut);
+        
+        //set up score display
         scoreBar=new JPanel();
         scoreContent=new JLabel("Score: 0");
+        scoreContent.setForeground(Color.WHITE);
         scoreBar.add(scoreContent);
         scoreBar.setBounds(0,100,200,200);
+        scoreBar.setBackground(new Color(0,0,0,0));
         add(scoreBar);
+       
 
-
-        //load mapping
+        //map the song
         this.song = new Song(notes,songName);
         if(songName.equals("freely tomorrow")) {
         	if(level.equals("Normal"))song.mapFirstSongNormal();
         	if(level.equals("Easy"))song.mapFirstSongEasy();
+        	
         }
         else {
             if(level.equals("Normal"))song.normalYumetourou();
@@ -53,55 +57,49 @@ public class MainGameScreen extends JPanel implements ActionListener{
             if(level.equals("Expert"))song.expertYumetourou();
 
         }
-
         notes = this.song.notes;
-
-        add(backBut);
-
+        
+        
+        
         //adjust speed
         if(level == "Easy")speed = 2;
         if(level == "Normal")speed = 3;
         if(level == "Expert")speed = 4;
-
-
-      //another thread plays music
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                music();
-            }
+        
+        
+      //one thread plays music
+       new Thread(new Runnable() {
+        	@Override
+        	public void run() {
+        		music();
+        	}
         }).start();
-
-        new Thread(new Runnable() {
-            @Override
+       
+       //another thread makes the bars fall
+        new Thread(new Runnable() {  
+            @Override  
             public void run() {
                 try {
-                	//float start = System.nanoTime();
-                    while(true){
+                	
+                    while(true){ 
                     	//Bars goes downwards
-                    	//if((System.nanoTime()-start)>=20000000){
-                    		//start = System.nanoTime();
+                    	
                     		yOffset = yOffset + speed;
-
-
-
                     		repaint();
-
-                    	//}
+                    		
+                    	
                         Thread.sleep(20);
-                    }
+                   }
                 }catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                	   e.printStackTrace();
+                   }
             }
-
-
+                
+            
         }).start();
-
-
-
-        setVisible(true);
-
+        setVisible(true);  
+        
+        //when key pressed, calculate score
         window.addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
@@ -109,26 +107,31 @@ public class MainGameScreen extends JPanel implements ActionListener{
             }
             @Override
             public void keyPressed(KeyEvent e) {
-
-
+            	
+            		
             		if(e.getKeyCode() == KeyEvent.VK_J){
-            		    //k=74;
-                        // x in first column
-                        findLabel(402);
+            			System.out.println("J");
+            			findLabel(402);
+            			highlight(getGraphics(),402);
             		}
             		if(e.getKeyCode() == KeyEvent.VK_K){
-            		    //k=75;
-                        findLabel(502);
+            			System.out.println("K");
+            			findLabel(502);
+            			highlight(getGraphics(),502);
+            			
             		}
             		if(e.getKeyCode() == KeyEvent.VK_D){
-            		    //k=68;
-                        findLabel(202);
+            			System.out.println("D");
+            			findLabel(202);
+            			highlight(getGraphics(),202);
+            			
             		}
             		if(e.getKeyCode() == KeyEvent.VK_F){
-            		    //k=70;
-                        findLabel(302);
+            			System.out.println("F");
+            			findLabel(302);
+            			highlight(getGraphics(),302);
             		}
-
+            	
 
             }
             @Override
@@ -136,35 +139,38 @@ public class MainGameScreen extends JPanel implements ActionListener{
 
             }
         });
+        
+       
+        //start listening to the keys
         window.setFocusable(true);
         window.requestFocusInWindow();
-
-
-
+      
+        
+        
+        
 	}
-
-
-    /**
-     * set up game frame
-     */
-	private static final long serialVersionUID = 1L;
+	
+	
+	/**
+	 * Modify the built-in function to draw background and bars
+	 */
+	private static final long serialVersionUID = 1L; 
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-
+		
 		Graphics2D g2 = (Graphics2D) g;
 		//draw background
-		ImageIcon icon = new ImageIcon("C:\\Users\\思遥\\IdeaProjects\\FinalProject\\src\\rhythmGame\\img_and_audio\\bg.jpg",null);
+		ImageIcon icon = new ImageIcon("C:\\Users\\hq\\eclipse-workspace\\FinalProject.zip_expanded\\FinalProject-master\\src\\rhythmGame\\bg.jpg",null);
 		Image before = icon.getImage();
 		Image newImage = before.getScaledInstance(800, 600, Image.SCALE_SMOOTH);
 		ImageIcon newIcon = new ImageIcon(newImage);
 		newImage = newIcon.getImage();
 		g.drawImage(newImage, 0, 0, null);
-
-
+	    
+	    
 		Line2D linU = new Line2D.Float(0, 450, 800, 450);
         Line2D linB = new Line2D.Float(0, 500, 800, 500);
-        Line2D linD = new Line2D.Float(0, 500, 800, 500);
         Line2D lin1 = new Line2D.Float(200, 0, 200, 500);
         Line2D lin2 = new Line2D.Float(300, 0, 300, 500);
         Line2D lin3 = new Line2D.Float(400, 0, 400, 500);
@@ -179,133 +185,125 @@ public class MainGameScreen extends JPanel implements ActionListener{
         g2.draw(lin3);
         g2.draw(lin4);
         g2.draw(lin5);
-
-
+        
+        
         g.setColor(Color.WHITE);
-        Font font = new Font("Consolas", Font.PLAIN, 20);
-        g.setFont(font);
+		Font font = new Font("Consolas", Font.PLAIN, 20); 
+		g.setFont(font);
         g.drawString("D", 250, 475);
         g.drawString("F", 350, 475);
         g.drawString("J", 450, 475);
         g.drawString("K", 550, 475);
-
-
-        paintBars(g2);
-
-
-    }
-
-    /**
-     * draw falling blocks
-     * @param g
-     */
-    public void paintBars(Graphics g) {
-        //bars
-
-        for (int i = 0; i<this.song.notes.length;i++) {
+        
+       paintBars(g);
+       
+        
+	}
+	
+	/**
+	 * update the position of bars
+	 * @param g
+	 */
+	public void paintBars(Graphics g) {
+		 //bars
+		for (int i = 0; i<this.song.notes.length;i++) {
             notes[i].y = notes[i].original_y + yOffset;
-            if(notes[i].original_y+yOffset>-30)
-            {   g.setColor(Color.YELLOW);
-                //update y
-                //notes[i].y=notes[i].y+yOffset;
-                //boolean hit = notes[i].hit(k);
-                //if (hit==true){
-                //    song.score+=1;
-                //    System.out.println("hit..");
-               // }
-                //update UI
+            if(notes[i].y>-30 && notes[i].y<600)//only draw bars that are inside the frame
+            {   g.setColor(new Color(0,1,1,(float)0.4));
+
+                //update bar position
                 g.fillRect(notes[i].x, notes[i].y, 95, 30);
+                
+                //draw a border surrounding the bar
                 g.setColor(new Color(0,0,0, (float) 0.4));
                 g.drawRect(notes[i].x, notes[i].y, 95, 30);
             }
 
 
         }
+        
+		
+	}
+	
+	/**
+	 * Highlight the area of keys when pressed
+	 * @param g
+	 * @param x
+	 */
+	public void highlight(Graphics g, int x) {
+		g.setColor(new Color(1,0,1,(float)0.4));
+		g.fillRect(x, 450, 95, 50);
+	}
+	
 
-
-    }
-
-
-
-
-    @Override
+	
+	
+	@Override
     public void actionPerformed(ActionEvent e) {
-        JButton b = (JButton)e.getSource();
-        if(b.getText().equals("Back")) {
-            //AudioPlayer.player.stop(BGM);
-            clip.stop();
-            this.setVisible(false);
-        }
-        else{
-
-        }
+    	 JButton b = (JButton)e.getSource();
+         if(b.getText().equals("Back")) {
+        	 AudioPlayer.player.stop(BGM);
+             this.setVisible(false);
+         }
+         else{
+       
+         }
     }
-
-    /**
-     * render background music
-     */
-    public void music()
-    {
-        /*
+	
+	
+	public void music() 
+    {       
         AudioPlayer MGP = AudioPlayer.player;
-        //AudioStream BGM;
-        AudioData MD;
+
 
         ContinuousAudioDataStream loop = null;
-
+        InputStream test = null;
+        
         try
         {
-            InputStream test = new FileInputStream("C:\\Users\\hq\\eclipse-workspace\\FinalProject.zip_expanded\\FinalProject-master\\src\\rhythmGame\\FREELY_TOMORROW.wav");
+        	if(this.song.name.equals("freely tomorrow")) {
+        		test = new FileInputStream("C:\\Users\\hq\\eclipse-workspace\\FinalProject.zip_expanded\\FinalProject-master\\src\\rhythmGame\\FREELY_TOMORROW.wav");
+        	}
+        	else {
+        		test = new FileInputStream("C:\\Users\\hq\\eclipse-workspace\\FinalProject.zip_expanded\\FinalProject-master\\src\\rhythmGame\\�ε���.wav");
+        		
+        	}
             this.BGM = new AudioStream(test);
             AudioPlayer.player.start(BGM);
-
-
+            
+           
         }
         catch(FileNotFoundException e){
-            e.printStackTrace();
+        	e.printStackTrace();
         }
         catch(IOException error)
         {
-            error.printStackTrace();
+        	error.printStackTrace();
         }
-        MGP.start();
-        */
-        try {
-            clip = AudioSystem.getClip();
-            AudioInputStream inputStream;
-            //-select song to play
-            if(songName.equals("yumetourou")) {
-                inputStream = AudioSystem.getAudioInputStream(new File("C:\\Users\\思遥\\IdeaProjects\\FinalProject\\src\\rhythmGame\\img_and_audio\\梦灯笼.wav"));
-            }
-            else {
-                inputStream = AudioSystem.getAudioInputStream(new File("C:\\Users\\思遥\\IdeaProjects\\FinalProject\\src\\rhythmGame\\img_and_audio\\p80_FREELY TOMORROW feat. 初音ミク.wav"));
-            }
-            clip.open(inputStream);
-            clip.start();
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
-        }
-
+        MGP.start(loop);
     }
-
-    /**
-     * find if there are blocks inside the target area
-     * @param i
-     */
-    public void findLabel(int i) {
+	
+	
+	/**
+	 * Find if there are blocks inside the target area.
+	 * If there is, increase the score.
+	 * @param i
+	 */
+	private void findLabel(int i) {
         for (int j = 0; j<notes.length; j++ ) {
-           // Rectangle r = bars[j].getBounds();
-            if(notes[j].x==i & notes[j].y>430 & notes[j].y<500 & notes[j].guo==0) {
-                //bars[j].setVisible(false);
-                notes[j].guo=1;
+            if(notes[j].x==i && notes[j].y>430 & notes[j].y<500 & notes[j].pass == 0) {
+            	System.out.println("hit");
                 song.score+=100;
+                
+                //cannot calculate one bar twice
+                notes[j].pass = 1;
+                
                 scoreContent.setText("Score: "+Integer.toString(song.score));
-                System.out.println(k);
                 return;
             }
         }
 
     }
 
-
+	
 }
