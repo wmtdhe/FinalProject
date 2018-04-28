@@ -1,6 +1,8 @@
-package rhythmGame;
+package tests;
 
 import junit.framework.TestCase;
+import rhythmGame.Notes;
+import rhythmGame.Song;
 
 public class SongTest extends TestCase {
 

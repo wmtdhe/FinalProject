@@ -154,7 +154,7 @@ public class MainGameScreen extends JPanel implements ActionListener{
 
 		Graphics2D g2 = (Graphics2D) g;
 		//draw background
-		ImageIcon icon = new ImageIcon("C:\\Users\\思遥\\IdeaProjects\\FinalProject\\src\\rhythmGame\\bg.jpg",null);
+		ImageIcon icon = new ImageIcon("C:\\Users\\思遥\\IdeaProjects\\FinalProject\\src\\rhythmGame\\img_and_audio\\bg.jpg",null);
 		Image before = icon.getImage();
 		Image newImage = before.getScaledInstance(800, 600, Image.SCALE_SMOOTH);
 		ImageIcon newIcon = new ImageIcon(newImage);
@@ -275,10 +275,10 @@ public class MainGameScreen extends JPanel implements ActionListener{
             AudioInputStream inputStream;
             //-select song to play
             if(songName.equals("yumetourou")) {
-                inputStream = AudioSystem.getAudioInputStream(new File("C:\\Users\\思遥\\IdeaProjects\\FinalProject\\src\\rhythmGame\\梦灯笼.wav"));
+                inputStream = AudioSystem.getAudioInputStream(new File("C:\\Users\\思遥\\IdeaProjects\\FinalProject\\src\\rhythmGame\\img_and_audio\\梦灯笼.wav"));
             }
             else {
-                inputStream = AudioSystem.getAudioInputStream(new File("C:\\Users\\思遥\\IdeaProjects\\FinalProject\\src\\rhythmGame\\p80_FREELY TOMORROW feat. 初音ミク.wav"));
+                inputStream = AudioSystem.getAudioInputStream(new File("C:\\Users\\思遥\\IdeaProjects\\FinalProject\\src\\rhythmGame\\img_and_audio\\p80_FREELY TOMORROW feat. 初音ミク.wav"));
             }
             clip.open(inputStream);
             clip.start();

@@ -630,17 +630,25 @@ public class Song {
 		return (int)(time+next*(60*1000/145));
 	}
 
-	
+	/**
+	 * add note
+	 * @param pos note.x
+	 * @param nanosec
+	 */
 	private void addNote(int pos, int nanosec) {
 		int x = 0;
 		if(pos == 1)x = 202;
 		if(pos == 2)x = 302;
 		if(pos == 3)x = 402;
 		if(pos == 4)x = 502;
-		Notes note = new Notes(x,450-(nanosec/20)*(this.speed));
+		Notes note = new Notes(x,450-(nanosec/25)*(this.speed));
 		add(note);
 	}
-	
+
+	/**
+	 * notes array for the whole song
+	 * @param note
+	 */
 	private void add(Notes note) {
 		Notes[] old = this.notes;
 		Notes[] now = new Notes[old.length+1];

@@ -61,7 +61,7 @@ public class Profile extends JPanel implements ActionListener{
         label = new JLabel();
         label.setBounds(avatar.getX(),avatar.getY(),avatar.getWidth(),avatar.getHeight());
         //default avatar
-        ImageIcon newicon = ResizedIcon("C:\\Users\\思遥\\IdeaProjects\\FinalProject\\src\\rhythmGame\\avatar.png");//new ImageIcon(resizedImage);
+        ImageIcon newicon = ResizedIcon("C:\\Users\\思遥\\IdeaProjects\\FinalProject\\src\\rhythmGame\\img_and_audio\\avatar.png");//new ImageIcon(resizedImage);
         label.setIcon(newicon);
         avatar.add(label);
         avatar.setBackground(new Color(0,0,0,0));
@@ -131,10 +131,10 @@ public class Profile extends JPanel implements ActionListener{
     public void SetTBoard(JPanel trophies){
         trophies.setLayout(new GridLayout(2,2));
         ImageIcon []icon = new ImageIcon[4];//("C:\\Users\\˼ң\\IdeaProjects\\FinalProject\\src\\rhythmGame\\once.jpg");
-        icon[0]=ResizedIcon("C:\\Users\\思遥\\IdeaProjects\\FinalProject\\src\\rhythmGame\\one.jpg"); // 1
-        icon[1]=ResizedIcon("C:\\Users\\思遥\\IdeaProjects\\FinalProject\\src\\rhythmGame\\10.png");
-        icon[2]=ResizedIcon("C:\\Users\\思遥\\IdeaProjects\\FinalProject\\src\\rhythmGame\\10000.jpg");
-        icon[3]=ResizedIcon("C:\\Users\\思遥\\IdeaProjects\\FinalProject\\src\\rhythmGame\\10k.jpg");
+        icon[0]=ResizedIcon("C:\\Users\\思遥\\IdeaProjects\\FinalProject\\src\\rhythmGame\\img_and_audio\\one.jpg"); // 1
+        icon[1]=ResizedIcon("C:\\Users\\思遥\\IdeaProjects\\FinalProject\\src\\rhythmGame\\img_and_audio\\10.png");
+        icon[2]=ResizedIcon("C:\\Users\\思遥\\IdeaProjects\\FinalProject\\src\\rhythmGame\\img_and_audio\\10000.jpg");
+        icon[3]=ResizedIcon("C:\\Users\\思遥\\IdeaProjects\\FinalProject\\src\\rhythmGame\\img_and_audio\\10k.jpg");
         Image []normalImage = new Image[4];//icon.getImage();
         JProgressBar []progresses = new JProgressBar[4];
         //JPanel []tro = new JPanel[4];

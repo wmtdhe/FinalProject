@@ -1,23 +1,24 @@
 package rhythmGame;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseAdapter;
-import sun.audio.*;
+//import sun.audio.*;
 
 public class SongSelection extends JPanel implements ActionListener{
     public CardLayout c;
     public JFrame sf;
     public JButton back;
-    public AudioStream BGM;
+   // public AudioStream BGM;
+    public Clip clip;
     public SongSelection(JFrame frame) {
         sf = frame;
         back = new JButton("Back");
@@ -27,10 +28,10 @@ public class SongSelection extends JPanel implements ActionListener{
         songlist.setLayout(null);
         JLabel previewImg1 = new JLabel();
         previewImg1.setBounds(0,0,400,250);
-        previewImg1.setIcon(ResizedIcon("C:\\Users\\hq\\eclipse-workspace\\FinalProject.zip_expanded\\FinalProject-master\\src\\rhythmGame\\Realistic_virtual_singing.png",previewImg1));
+        previewImg1.setIcon(ResizedIcon("C:\\Users\\思遥\\IdeaProjects\\FinalProject\\src\\rhythmGame\\img_and_audio\\Realistic_virtual_singing.png",previewImg1));
         JLabel previewImg2 = new JLabel();
         previewImg2.setBounds(0,250,400,250);
-        previewImg2.setIcon(ResizedIcon("C:\\Users\\hq\\eclipse-workspace\\FinalProject.zip_expanded\\FinalProject-master\\src\\rhythmGame\\yume.jpg",previewImg2));
+        previewImg2.setIcon(ResizedIcon("C:\\Users\\思遥\\IdeaProjects\\FinalProject\\src\\rhythmGame\\img_and_audio\\yume.jpg",previewImg2));
         JButton song1 = new JButton("Freely Tomorrow");
         JButton song2 = new JButton("Yumetourou");
         
@@ -38,12 +39,12 @@ public class SongSelection extends JPanel implements ActionListener{
 
             @Override
             public void mouseEntered(MouseEvent me) {
-                music("C:\\Users\\hq\\eclipse-workspace\\FinalProject.zip_expanded\\FinalProject-master\\src\\rhythmGame\\FREELY_TOMORROW.wav");
+                music("freely");
             }
             
             @Override
             public void mouseExited(MouseEvent me) {
-            	AudioPlayer.player.stop(BGM);
+            	clip.stop();
             }
             
         });
@@ -51,12 +52,12 @@ public class SongSelection extends JPanel implements ActionListener{
         song2.addMouseListener(new MouseAdapter(){
         	@Override
             public void mouseEntered(MouseEvent me) {
-                music("C:\\Users\\hq\\eclipse-workspace\\FinalProject.zip_expanded\\FinalProject-master\\src\\rhythmGame\\�ε���.wav");
+                music("yumetourou");
             }
             
             @Override
             public void mouseExited(MouseEvent me) {
-            	AudioPlayer.player.stop(BGM);
+            	clip.stop();
             }
         });
 
@@ -115,28 +116,23 @@ public class SongSelection extends JPanel implements ActionListener{
     
     
     public void music(String bgm) 
-    {       
-        AudioPlayer MGP = AudioPlayer.player;
-        AudioData MD;
+    {
 
-        ContinuousAudioDataStream loop = null;
-
-        try
-        {
-            InputStream test = new FileInputStream(bgm);
-            this.BGM = new AudioStream(test);
-            AudioPlayer.player.start(BGM);
-            
-           
+        try {
+            //-select song to play
+            clip = AudioSystem.getClip();
+            AudioInputStream inputStream;
+            if(bgm.equals("yumetourou")) {
+                inputStream = AudioSystem.getAudioInputStream(new File("C:\\Users\\思遥\\IdeaProjects\\FinalProject\\src\\rhythmGame\\img_and_audio\\梦灯笼.wav"));
+            }
+            else {
+                inputStream = AudioSystem.getAudioInputStream(new File("C:\\Users\\思遥\\IdeaProjects\\FinalProject\\src\\rhythmGame\\img_and_audio\\p80_FREELY TOMORROW feat. 初音ミク.wav"));
+            }
+            clip.open(inputStream);
+            clip.start();
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
         }
-        catch(FileNotFoundException e){
-        	e.printStackTrace();
-        }
-        catch(IOException error)
-        {
-        	error.printStackTrace();
-        }
-        MGP.start(loop);
     }
 
 }

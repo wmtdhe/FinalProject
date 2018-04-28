@@ -27,7 +27,7 @@ public class LevelSelection extends JPanel implements ActionListener{
         	protected void paintComponent(Graphics g) {
         		super.paintComponent(g);
         		//draw background
-        		ImageIcon icon = new ImageIcon("C:\\Users\\hq\\eclipse-workspace\\FinalProject.zip_expanded\\FinalProject-master\\src\\rhythmGame\\bg.jpg",null);
+        		ImageIcon icon = new ImageIcon("C:\\Users\\思遥\\IdeaProjects\\FinalProject\\src\\rhythmGame\\img_and_audio\\bg.jpg",null);
         		Image before = icon.getImage();
         		Image newImage = before.getScaledInstance(800, 600, Image.SCALE_SMOOTH);
         		ImageIcon newIcon = new ImageIcon(newImage);
