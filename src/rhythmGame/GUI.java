@@ -19,26 +19,23 @@ public class GUI extends JFrame{
 	//using a cardlayout
     public JPanel cardPanel;
     public CardLayout cardLayout = new CardLayout();
-    public String name;
-    //cards
-
-    public JPanel songSelection = new SongSelection(this);
-    public JPanel credit = new Credit();
-    public JPanel profile;
-    public  Game game;
-
-    public Boolean gameOn = true;
-
     
+    //cards
+    public JPanel profile;
+    public JPanel songSelection = new SongSelection(this);
+    public JPanel credit = new Credit(); 
+    public JPanel settings = new Settings(this);
+    
+    public String name;
+    public Game game;
     
     
     public GUI(){
     	
     	name = JOptionPane.showInputDialog("Please tell me your name");
-    	//Player player = new Player(name);
     	game = new Game(name);
     	profile = new Profile(game.player);
-
+    	
     	cardPanel = new JPanel();
         cardPanel.setLayout(cardLayout);
 
@@ -49,7 +46,13 @@ public class GUI extends JFrame{
         JButton newGame =  new JButton("New Game");
         JButton profileButton =new JButton("Profile");
         JButton creditButton = new JButton("Credit");
+        JButton settingsButton = new JButton("Settings");
         JButton Exit = new JButton("Exit");
+        
+        newGame.setBackground(new Color(0,0,0,0));
+        newGame.setForeground(Color.white);
+        newGame.setBorder(null);
+        newGame.setMargin(new Insets(0, 0, 0, 0));
         
         
         //display other cards when clicked
@@ -64,8 +67,7 @@ public class GUI extends JFrame{
         profileButton.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
-                //profile = new Profile(name);
-                cardLayout.show(cardPanel,"Profile");
+            	cardLayout.show(cardPanel,"Profile");
             }
         });
         
@@ -77,6 +79,13 @@ public class GUI extends JFrame{
             	cardPanel.add(credit,"Credit");
                 cardLayout.show(cardPanel,"Credit");
                 
+            }
+        });
+        
+        settingsButton.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+                cardLayout.show(cardPanel,"Settings");
             }
         });
         
@@ -99,7 +108,7 @@ public class GUI extends JFrame{
         		super.paintComponent(g);
         		
         		//draw background
-        		ImageIcon icon = new ImageIcon("C:\\Users\\思遥\\IdeaProjects\\FinalProject\\src\\rhythmGame\\img_and_audio\\bg.jpg",null);
+        		ImageIcon icon = new ImageIcon("C:\\Users\\hq\\eclipse-workspace\\FinalProject.zip_expanded\\FinalProject-master\\src\\rhythmGame\\bg.jpg",null);
         		Image before = icon.getImage();
         		Image newImage = before.getScaledInstance(800, 600, Image.SCALE_SMOOTH);
         		ImageIcon newIcon = new ImageIcon(newImage);
@@ -117,11 +126,13 @@ public class GUI extends JFrame{
         menu.add(newGame,gbc);
         menu.add(profileButton,gbc);
         menu.add(creditButton,gbc);
+        menu.add(settingsButton,gbc);
         menu.add(Exit,gbc);
         cardPanel.add(menu, "Start Menu");
         cardPanel.add(songSelection, "New Game");
         cardPanel.add(profile,"Profile");
         cardPanel.add(credit,"Credit");
+        cardPanel.add(settings,"Settings");
         cardPanel.setBackground(new Color(0,0,0,0));
         
         this.add(cardPanel,BorderLayout.CENTER);
