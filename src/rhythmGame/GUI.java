@@ -19,21 +19,26 @@ public class GUI extends JFrame{
 	//using a cardlayout
     public JPanel cardPanel;
     public CardLayout cardLayout = new CardLayout();
-    
-    //cards
-    public JPanel profile = new Profile();
-    public JPanel songSelection = new SongSelection(this);
-    public JPanel credit = new Credit(); 
-    
     public String name;
+    //cards
+
+    public JPanel songSelection = new SongSelection(this);
+    public JPanel credit = new Credit();
+    public JPanel profile;
+    public  Game game;
+
     public Boolean gameOn = true;
+
     
     
     
     public GUI(){
     	
     	name = JOptionPane.showInputDialog("Please tell me your name");
-    	
+    	//Player player = new Player(name);
+    	game = new Game(name);
+    	profile = new Profile(game.player);
+
     	cardPanel = new JPanel();
         cardPanel.setLayout(cardLayout);
 
@@ -59,7 +64,8 @@ public class GUI extends JFrame{
         profileButton.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
-            	cardLayout.show(cardPanel,"Profile");
+                //profile = new Profile(name);
+                cardLayout.show(cardPanel,"Profile");
             }
         });
         

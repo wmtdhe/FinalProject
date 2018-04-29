@@ -15,8 +15,10 @@ public class Profile extends JPanel implements ActionListener{
     public String[] fakesongs = new String[5];
     public int[] plays = new int[5];
     public JPanel []tro = new JPanel[4];
+    public Player player;
     //public String name;
-    public Profile() {
+    public Profile(Player player) {
+        this.player = player;
         setLayout(null);
         JPanel avatar = new JPanel();
         JPanel uploadbut = new JPanel();
@@ -40,6 +42,7 @@ public class Profile extends JPanel implements ActionListener{
         plays[2]=3;
         plays[3]=4;
         plays[4]=8;
+
 
         //---
 
@@ -191,8 +194,10 @@ public class Profile extends JPanel implements ActionListener{
         for(int i=0;i<intscores.length;i++){
             intscores[i]=Integer.parseInt(fakescores[i]);
         }
-        int played = getMax(plays);
-        int highscore = getMax(intscores);
+        int played = player.getCount();//getMax(plays);
+        //int song1 = getMax(player.getFirstScores());
+        //int song2 = getMax(player.getSecondScores());
+        int highscore = player.getHighScore();//song1>song2?song1:song2;//getMax(intscores);
 
         for(int j=0;j<4;j++){
             // 1
