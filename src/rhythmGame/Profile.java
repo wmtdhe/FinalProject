@@ -64,7 +64,7 @@ public class Profile extends JPanel implements ActionListener{
         label = new JLabel();
         label.setBounds(avatar.getX(),avatar.getY(),avatar.getWidth(),avatar.getHeight());
         //default avatar
-        ImageIcon newicon = ResizedIcon("C:\\Users\\思遥\\IdeaProjects\\FinalProject\\src\\rhythmGame\\img_and_audio\\avatar.png");//new ImageIcon(resizedImage);
+        ImageIcon newicon = ResizedIcon(player.getAvatar());//"C:\\Users\\思遥\\IdeaProjects\\FinalProject\\src\\rhythmGame\\img_and_audio\\avatar.png");//new ImageIcon(resizedImage);
         label.setIcon(newicon);
         avatar.add(label);
         avatar.setBackground(new Color(0,0,0,0));
@@ -105,6 +105,7 @@ public class Profile extends JPanel implements ActionListener{
         if(result == JFileChooser.APPROVE_OPTION){
             File selectedFile=file.getSelectedFile();
             String path = selectedFile.getAbsolutePath();
+            player.setAvatar(path);
             label.setIcon(ResizedIcon(path));
         }
         else if (result==JFileChooser.CANCEL_OPTION){

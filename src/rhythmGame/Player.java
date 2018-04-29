@@ -32,7 +32,7 @@ public class Player {
 		this.secondSongScores = new int[10];
 		this.expert = false;
 		this.count = 0;
-		this.avatar = "";
+		this.avatar = "C:\\Users\\思遥\\IdeaProjects\\FinalProject\\src\\rhythmGame\\img_and_audio\\avatar.png";
 		
 		this.updateAchievement();
 		
@@ -155,6 +155,10 @@ public class Player {
 	 */
 	public String getAvatar() {
 		return this.avatar;
+	}
+
+	public void setAvatar(String avatar){
+		this.avatar = avatar;
 	}
 	
 	
