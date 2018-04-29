@@ -18,6 +18,9 @@ public class Game {
     public Player player;
     public Song currentSong;
     public boolean ranked;
+    public int easySpeed;
+    public int normalSpeed;
+    public int exSpeed;
 
     /**
      * If player data exists, load the data,
@@ -28,6 +31,9 @@ public class Game {
     	if(!this.loadPlayerData(name)) {
     		this.player = new Player(name);
     	}
+    	this.easySpeed = 2;
+    	this.normalSpeed = 3;
+    	this.exSpeed = 4;
     	
     	this.currentSong = null;
     }
@@ -53,6 +59,7 @@ public class Game {
 		obj.put("first",Arrays.toString(player.getFirstScores()));
 		obj.put("second", Arrays.toString(player.getSecondScores()));
 		obj.put("expert", player.expert);
+		obj.put("avatar", player.getAvatar());
 		try {FileWriter file = new FileWriter(player.name+"Data.json");
 		
 			file.write(obj.toJSONString());
@@ -213,10 +220,10 @@ public class Game {
 	 */
 	public boolean songEnd() {
 		if(currentSong.health==0)return true;
-		/*if(currentSong.songFinished()) {
+		if(currentSong.songFinished()) {
 			storeSongData();
 			return true;
-		}*/
+		}
 		return false;
 	}
 	

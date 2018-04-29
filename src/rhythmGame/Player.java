@@ -21,6 +21,7 @@ public class Player {
 	private int[] secondSongScores;
 	private Achievements playerAchievement;
 	private int count;//total play times
+	private String avatar;
 	public boolean expert;//reached expert level
 	
 	
@@ -31,6 +32,7 @@ public class Player {
 		this.secondSongScores = new int[10];
 		this.expert = false;
 		this.count = 0;
+		this.avatar = "";
 		
 		this.updateAchievement();
 		
@@ -51,6 +53,7 @@ public class Player {
 		this.secondSongScores = (convert(line));
 		this.count = ((Long)data.get("count")).intValue();
 		this.expert = (boolean)data.get("expert");
+		this.avatar = (String)data.get("avartar");
 		this.updateAchievement();
 		
 	}
@@ -75,7 +78,7 @@ public class Player {
 	}
 
 	public void setHighScore(int highScore) {
-		this.highScore = highScore;
+		if(highScore>this.highScore)this.highScore = highScore;
 	}
 
 	
@@ -147,7 +150,12 @@ public class Player {
 		this.playerAchievement = new Achievements(this.count, this.highScore);
 	}
 	
-	
+	/**
+	 * getter for avatar
+	 */
+	public String getAvatar() {
+		return this.avatar;
+	}
 	
 	
 	
