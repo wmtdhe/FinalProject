@@ -23,7 +23,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 
 public class HighScore extends JFrame {
 	
-	public HighScore(Game game, Song song) {
+	public HighScore(Game game, Song song, boolean highlighted) {
 		
 		String[] columnNames = new String[]{"Name",
                 "Score"};
@@ -70,7 +70,7 @@ public class HighScore extends JFrame {
 		final int hl = highlight;
 	    JTable render = new JTable(model){
 	        public TableCellRenderer getCellRenderer(int row, int column) {
-	            if (row == hl) {
+	            if (row == hl && highlighted) {
 	                return new CellHighlighterRenderer();
 	            }
 	            return super.getCellRenderer(row, column);
@@ -80,7 +80,7 @@ public class HighScore extends JFrame {
 	    //adding table to the window
 		this.add(render,BorderLayout.CENTER);
 		this.setTitle("High Score");
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setVisible(true);
         this.setSize(400, 200);
         
@@ -95,7 +95,7 @@ public class HighScore extends JFrame {
 	public static void main(String []args){
 		Game newGame = new Game("Hi");
 		Song newSong = new Song(null,"MySong");
-		HighScore hs = new HighScore(newGame,newSong);
+		HighScore hs = new HighScore(newGame,newSong, true);
 	}
 	
 
