@@ -1,10 +1,7 @@
 package rhythmGame;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
 import javax.swing.*;
-//import sun.audio.*;
+import sun.audio.*;
 
 import java.awt.*;
 import java.awt.geom.Line2D;
@@ -18,88 +15,43 @@ public class MainGameScreen extends JPanel implements ActionListener{
 	public GUI window;
 	private int yOffset = 0;//control the speed of falling notes
 	private int speed;
-	//public AudioStream BGM;
-    public Clip clip;
+	public AudioStream BGM;
 	public Song song;
 	public Notes[] notes = new Notes[0];
-	public JPanel scoreBar;
+	public JPanel scoreBar;//ingame score display
 	public JLabel scoreContent;
 	
-	public JPanel finalScore;
+	public JPanel finalScore;//final score display
 	public int perfectCount;
 	public int goodCount;
 	public int missCount;
 	
-	public JLabel accuracy;
-	public JButton pause;
-	public boolean p=false;
-	public long pauseloc;
+	public JLabel accuracy;//accuracy labels
+	public boolean p=false;//paused?
 	public int combo=0;
-	public JLabel co;
+	public int maxcombo=0;
+	public JLabel co;//combo display
+	
+	public ImageIcon perfect;
+	public ImageIcon good;
+	public JButton back;
+	public Boolean hardMode;
+	public int searchIndex;
 	
 	
 	
 	public MainGameScreen(GUI window, String level, String songName, boolean hardMode) {
 		this.setLayout(null);
 		this.window = window;
-		this.setBounds(0, 0, 800, 600);
-		 
-		
-		//set up back button
-		JPanel backBut = new JPanel();
-        JButton back = new JButton("Back");
-        back.addActionListener(this);
-        backBut.setBounds(0, 0, 115, 30);
-        backBut.add(back);
-        backBut.setBackground(new Color(0,0,0,0));
-        add(backBut);
-        
-        //set up score display
-        scoreBar=new JPanel();
-        scoreContent=new JLabel("Score: 0");
-        scoreContent.setForeground(Color.WHITE);
-        scoreBar.add(scoreContent);
-        scoreBar.setBounds(0,100,200,200);
-        scoreBar.setBackground(new Color(0,0,0,0));
-        add(scoreBar);
-        
-        //accuracy display
-        accuracy=new JLabel();
-        accuracy.setBounds(625,200,150,100);
-        add(accuracy);
-        
-        //set up final score display
-        finalScore = new JPanel();
-        finalScore.setLayout(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridwidth = GridBagConstraints.REMAINDER;
-        JButton hsbutton = new JButton("High Score");
-    	hsbutton.addActionListener(this);
-    	JButton next = new JButton("Next Challenge");
-    	next.addActionListener(this);
-        finalScore.setBounds(200,200,400,200);
-        finalScore.setBackground(new Color(0.4f,0.4f,0,0.8f));
-        finalScore.setVisible(false);
-        add(finalScore);
-        
-        
-        //pause
-        JPanel pauseB = new JPanel();
-        pauseB.setBackground(new Color(0,0,0,0));
-        pause = new JButton("Pause");
-        pauseB.setBounds(650,0,115,30);
-        pause.addActionListener(this);
-        pauseB.add(pause);
-        add(pauseB);
-        
-        //---combo
-        co = new JLabel(String.valueOf(combo));
-        co.setBounds(400,0,400,100);
-        co.setFont(new Font("Consolas", Font.PLAIN, 40));
-        co.setForeground(Color.white);
-        add(co);
-       
+		this.hardMode = hardMode;
 
+		//set up back button
+		back = new JButton(new ImageIcon("C:\\Users\\hq\\eclipse-workspace\\FinalProject.zip_expanded\\FinalProject-master\\src\\img_and_audio\\button_back.png"));
+        back.addActionListener(this);
+        back.setBounds(0, 0, 115, 100);
+        window.setButtonStyle(back);
+        add(back);
+        
         //map the song
         this.song = new Song(notes,songName);
         if(songName.equals("freely tomorrow")) {
@@ -124,11 +76,79 @@ public class MainGameScreen extends JPanel implements ActionListener{
         if(level == "Normal")this.speed = window.game.normalSpeed;
         if(level == "Expert")this.speed = window.game.exSpeed;
         
+        //set up in game score display
+        scoreBar=new JPanel();
+        scoreContent=new JLabel("Score: 0");
+        scoreContent.setForeground(Color.WHITE);
+        scoreContent.setFont(new Font("Monospaced", Font.ITALIC+Font.BOLD, 26));
+        scoreBar.add(scoreContent);
+        scoreBar.setBounds(0,100,200,200);
+        scoreBar.setBackground(new Color(0,0,0,0));
+        add(scoreBar);
+        
+        
+        
+        //set up final score display
+        finalScore = new JPanel();
+        finalScore.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridwidth = GridBagConstraints.REMAINDER;
+        JButton hsbutton = new JButton("High Score");
+        window.setButtonStyle(hsbutton);
+    	hsbutton.addActionListener(this);
+    	JButton next = new JButton("Next Challenge");
+    	next.addActionListener(this);
+        finalScore.setBounds(200,200,400,200);
+        finalScore.setBackground(new Color(0.4f,0.4f,0,1));
+        finalScore.setVisible(false);
+        add(finalScore);
+        
+        
+        //pause
+        JPanel pauseB = new JPanel();
+        pauseB.setBackground(new Color(0,0,0,0));
+        JButton pause = new JButton("Pause");
+        pause.setBackground(Color.orange);
+        pauseB.setBounds(650,0,115,30);
+        pause.addActionListener(this);
+        pauseB.add(pause);
+        add(pauseB);
+        
+        //---combo
+        co = new JLabel(String.valueOf(combo));
+        co.setBounds(400,0,400,100);
+        co.setFont(new Font("Consolas", Font.PLAIN, 40));
+        co.setForeground(Color.white);
+        add(co);
+       
+
+        
+        
+        
+      //accuracy display
+        accuracy=new JLabel();
+        accuracy.setBounds(625,200,150,100);
+        add(accuracy);
+        
+      //set up accuracy icons
+      	ImageIcon icon = new ImageIcon("C:\\Users\\hq\\eclipse-workspace\\FinalProject.zip_expanded\\FinalProject-master\\src\\img_and_audio\\perfect.png", null);
+        Image before = icon.getImage();;
+        Image resizedImage = before.getScaledInstance(150,100,Image.SCALE_SMOOTH);
+        perfect = new ImageIcon(resizedImage);
+              
+              
+        icon = new ImageIcon("C:\\Users\\hq\\eclipse-workspace\\FinalProject.zip_expanded\\FinalProject-master\\src\\img_and_audio\\Good1.png", null);
+        before = icon.getImage();
+        resizedImage = before.getScaledInstance(150,100,Image.SCALE_SMOOTH);
+        good = new ImageIcon(resizedImage);
+        
+        
         
       //one thread plays music
        new Thread(new Runnable() {
         	@Override
         	public void run() {
+        		
         		music();
         	}
         }).start();
@@ -139,19 +159,16 @@ public class MainGameScreen extends JPanel implements ActionListener{
             public void run() {
                 try {
                 	
-                    while(notes[notes.length-1].pass != 1 && song.health>0){
+                    while(notes[notes.length-1].pass != 1 && song.health>0){ 
                     	//Bars goes downwards
                     	
                     	if(!p) {
                     		yOffset = yOffset + speed;
-                    		repaint();
-                    		window.setFocusable(true);
-                    		window.requestFocusInWindow();
-                    	}
-                    	else {
-                    		window.setFocusable(false);
+                    		
                     	}
                     	
+                    	
+                    	repaint();
                         Thread.sleep(20);
      
                    }
@@ -160,6 +177,7 @@ public class MainGameScreen extends JPanel implements ActionListener{
                    }
                 try{Thread.sleep(1000);}catch(InterruptedException e) {e.printStackTrace();}
                 
+                //when the song ends
                 if(song.health <=0) {
                 	finalScore.add(new JLabel("Try next time!"),gbc);
                 	finalScore.add(hsbutton,gbc);
@@ -167,24 +185,15 @@ public class MainGameScreen extends JPanel implements ActionListener{
                 }
                 else {
                 	
+                	maxcombo = maxcombo>combo?maxcombo:combo;
                 	
                 	//display final score
                 	finalScore.add(scoreContent,gbc);
                 	finalScore.add(new JLabel("Perfect: "+ Integer.toString(perfectCount)),gbc);
                 	finalScore.add(new JLabel("Good: "+ Integer.toString(goodCount)),gbc);
                 	finalScore.add(new JLabel("Miss: "+ Integer.toString(missCount)),gbc);
+                	finalScore.add(new JLabel("Combo: "+ Integer.toString(maxcombo)),gbc);
                 	finalScore.add(hsbutton,gbc);
-                	finalScore.setVisible(true);
-                	
-                	//update player profile
-                	window.game.player.setHighScore(song.score);
-                	if(song.name=="freely tomorrow")window.game.player.setFirstScores(song.score);
-                	else window.game.player.setSecondScores(song.score);
-            	
-                	//hard mode
-                	if(hardMode & song.name == "freely tomorrow" ) {
-                		finalScore.add(next,gbc);
-                	}
                 	
                 	//ranked on highscore ranking
                 	if(window.game.songEnd() && window.game.ranked) {
@@ -192,6 +201,29 @@ public class MainGameScreen extends JPanel implements ActionListener{
                 		HighScore hs = new HighScore(window.game,song,true);
                 		hs.setVisible(true);
                 	}
+                	
+                	
+                	//hard mode
+                	if(hardMode && song.name == "freely tomorrow" ) {
+                		if(maxcombo==song.notes.length-1)finalScore.add(next,gbc);
+                		else finalScore.add(new JLabel("Try next time!"),gbc);
+                	}
+                	
+                	if(hardMode && song.name =="yumetourou") {
+                		if(maxcombo==song.notes.length-1)finalScore.add(new JLabel("Congrats! You beat the hard mode!"),gbc);
+                		else finalScore.add(new JLabel("Try next time!"),gbc);
+                		AudioPlayer.player.stop(BGM);
+                	}
+                	finalScore.setVisible(true);
+                	
+                	//update player profile
+                	window.game.player.setCount();
+                	window.game.player.setHighScore(song.score);
+                	if(level == "Expert")window.game.player.expert = true;
+                	if(song.name=="freely tomorrow")window.game.player.setFirstScores(song.score);
+                	else window.game.player.setSecondScores(song.score);
+
+                	
             	
                 }
             }
@@ -211,24 +243,20 @@ public class MainGameScreen extends JPanel implements ActionListener{
             	
             		
             		if(e.getKeyCode() == KeyEvent.VK_J){
-            			System.out.println("J");
-            			findLabel(402);
+            			findLabel(402);//calculate score
             			highlight(getGraphics(),402);
             		}
             		if(e.getKeyCode() == KeyEvent.VK_K){
-            			System.out.println("K");
             			findLabel(502);
             			highlight(getGraphics(),502);
             			
             		}
             		if(e.getKeyCode() == KeyEvent.VK_D){
-            			System.out.println("D");
             			findLabel(202);
             			highlight(getGraphics(),202);
             			
             		}
             		if(e.getKeyCode() == KeyEvent.VK_F){
-            			System.out.println("F");
             			findLabel(302);
             			highlight(getGraphics(),302);
             		}
@@ -262,7 +290,7 @@ public class MainGameScreen extends JPanel implements ActionListener{
 		
 		Graphics2D g2 = (Graphics2D) g;
 		//draw background
-		ImageIcon icon = new ImageIcon("C:\\Users\\思遥\\IdeaProjects\\FinalProject\\src\\rhythmGame\\img_and_audio\\bg_1.jpg",null);
+		ImageIcon icon = new ImageIcon("C:\\Users\\hq\\eclipse-workspace\\FinalProject.zip_expanded\\FinalProject-master\\src\\img_and_audio\\bg.jpg",null);
 		Image before = icon.getImage();
 		Image newImage = before.getScaledInstance(800, 600, Image.SCALE_SMOOTH);
 		ImageIcon newIcon = new ImageIcon(newImage);
@@ -298,7 +326,17 @@ public class MainGameScreen extends JPanel implements ActionListener{
        
         
         //draw health bar
-        g.fillRect(30, 400, this.song.health*10, 30);
+        g.drawString("HP",30,370);
+        if(this.song.health>5) {
+        	g.setColor(Color.GREEN);
+        }
+        else if(this.song.health>3) {
+        	g.setColor(Color.YELLOW);
+        }
+        else g.setColor(Color.RED);
+        g.fillRect(30, 400, this.song.health*10, 30);	
+        
+        
        paintBars(g);
        
        
@@ -313,11 +351,17 @@ public class MainGameScreen extends JPanel implements ActionListener{
 		 //bars
 		for (int i = 0; i<this.song.notes.length;i++) {
             notes[i].y = notes[i].original_y + yOffset;
-            if(notes[i].y>600)notes[i].pass = 1;
-            if(notes[i].pass == 1 & notes[i].counted == false & notes[i].hit == 0) {
-            	//song.health--;
+            
+            //missed
+            if(notes[i].y>500 && notes[i].hit == 0 && !notes[i].counted){
+            	missCount++;
+            	maxcombo = maxcombo>combo?maxcombo:combo;
+            	combo = 0;
+            	song.health--;
             	notes[i].counted = true;
+            	co.setText("0");
             }
+            
             if(notes[i].y>-30 && notes[i].y<600)//only draw bars that are inside the frame
             {   g.setColor(new Color(0,1,1,(float)0.4));
 
@@ -341,20 +385,29 @@ public class MainGameScreen extends JPanel implements ActionListener{
 	 * @param x
 	 */
 	public void highlight(Graphics g, int x) {
-
-        Clip clip_button;
-
-        try {
-                        clip_button = AudioSystem.getClip();
-                        AudioInputStream inputStream;
-                        //-select song to play
-                               inputStream = AudioSystem.getAudioInputStream(new File("C:\\Users\\思遥\\IdeaProjects\\FinalProject\\src\\rhythmGame\\img_and_audio\\button-16.wav"));
-                        clip_button.open(inputStream);
-                        clip_button.start();
-                    } catch (Exception e) {
-                        System.err.println(e.getMessage());
-                    }
+		
+		//added sound effect
+		AudioStream sfx;
+        InputStream test = null;
+        try
+        {
+        	
+        	test = new FileInputStream("C:\\Users\\hq\\eclipse-workspace\\FinalProject.zip_expanded\\FinalProject-master\\src\\img_and_audio\\button-16.wav");
+        	sfx = new AudioStream(test);
+            AudioPlayer.player.start(sfx);
+            
+           
+        }
+        catch(FileNotFoundException e){
+        	e.printStackTrace();
+        }
+        catch(IOException error)
+        {
+        	error.printStackTrace();
+        }
         
+        
+        //highlight
 		g.setColor(new Color(1,0,1,(float)0.4));
 		g.fillRect(x, 450, 95, 50);
 	}
@@ -364,57 +417,82 @@ public class MainGameScreen extends JPanel implements ActionListener{
 	
 	@Override
     public void actionPerformed(ActionEvent e) {
-        JButton b = (JButton)e.getSource();
-               if(b.getText().equals("Back")) {
-                       //AudioPlayer.player.stop(BGM);
-                       clip.stop();
-                       this.setVisible(false);
-                   }
-               else if(b.getText().equals("High Score")){
-                           	HighScore hs = new HighScore(window.game,song,false);
-                        		hs.setVisible(true);
-
-                                    }
-             else if(b.getText().equals("Pause")){
-                        b.setText("Resume");
-                        p=true;
-                        pauseloc = clip.getMicrosecondPosition();
-                        clip.stop();
-
-                            }
-                else if(b.getText().equals("Resume")){
-                        p=false;
-                        b.setText("Pause");
-                        clip.setMicrosecondPosition(pauseloc);
-                       clip.start(); }
+    	 JButton b = (JButton)e.getSource();
+    	 
+    	 //back
+         if(b==back) {
+        	 AudioPlayer.player.stop(BGM);
+             this.setVisible(false);
+             if(song.name == "yumetourou" & hardMode == true) {
+            	 window.cardLayout.show(window.cardPanel, "New Game");
+             }
+             else this.window.removeKeyListener(this.window.getKeyListeners()[0]);
+         }
+         //show high score
+         else if(b.getText().equals("High Score")){
+        	HighScore hs = new HighScore(window.game,song,false);
+     		hs.setVisible(true);
+       
+         }
+         //pause
+        else if(b.getText().equals("Pause")){
+        	 b.setText("Resume");
+        	 p=true;
+        	 window.setFocusable(false);
+        	 AudioPlayer.player.stop(BGM);}		
+         //resume
+        else if(b.getText().equals("Resume")){
+        	 p=false;
+        	 b.setText("Pause");
+        	 window.setFocusable(true);
+     		 window.requestFocusInWindow();
+        	 AudioPlayer.player.start(BGM);}
+         //enter next song of hardmode
          else {
         	 this.window.removeKeyListener(this.window.getKeyListeners()[0]);
         	 this.finalScore.setVisible(false);
+        	 AudioPlayer.player.stop(BGM);
         	 MainGameScreen mainGame = new MainGameScreen(this.window,"Expert","yumetourou",true);
-                   mainGame.setVisible(true);
-        	 add(mainGame);
+        	 window.cardPanel.add("next",mainGame);
+        	 window.cardLayout.show(window.cardPanel, "next");
         	 
          }
     }
 	
+	/**
+	 * Plays music
+	 */
 	
-	public void music() 
-    {
-        try {
-            clip = AudioSystem.getClip();
-            AudioInputStream inputStream;
-            //-select song to play
-            if(this.song.name.equals("yumetourou")) {
-                inputStream = AudioSystem.getAudioInputStream(new File("C:\\Users\\思遥\\IdeaProjects\\FinalProject\\src\\rhythmGame\\img_and_audio\\梦灯笼.wav"));
-            }
-            else {
-                inputStream = AudioSystem.getAudioInputStream(new File("C:\\Users\\思遥\\IdeaProjects\\FinalProject\\src\\rhythmGame\\img_and_audio\\FREELY_TOMORROW.wav"));
-            }
-            clip.open(inputStream);
-            clip.start();
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
+	private void music() 
+    {       
+        AudioPlayer MGP = AudioPlayer.player;
+
+
+        ContinuousAudioDataStream loop = null;
+        InputStream test = null;
+        
+        try
+        {
+        	if(this.song.name.equals("freely tomorrow")) {
+        		test = new FileInputStream("C:\\Users\\hq\\eclipse-workspace\\FinalProject.zip_expanded\\FinalProject-master\\src\\img_and_audio\\FREELY_TOMORROW.wav");
+        	}
+        	else {
+        		test = new FileInputStream("C:\\Users\\hq\\eclipse-workspace\\FinalProject.zip_expanded\\FinalProject-master\\src\\img_and_audio\\�ε���.wav");
+        		
+        	}
+            this.BGM = new AudioStream(test);
+            AudioPlayer.player.start(BGM);
+            
+           
         }
+        catch(FileNotFoundException e){
+        	e.printStackTrace();
+        }
+        catch(IOException error)
+        {
+        	error.printStackTrace();
+        }
+        MGP.start(loop);
     }
 	
 	
@@ -424,53 +502,40 @@ public class MainGameScreen extends JPanel implements ActionListener{
 	 * @param i
 	 */
 	private void findLabel(int i) {
-        for (int j = 0; j<notes.length; j++ ) {
-        	//perfect
-            if(notes[j].x==i && notes[j].y>450 & notes[j].y<500 & notes[j].hit == 0) {
-            	System.out.println("hit");
-                song.score+=500;
-                perfectCount+=1;
+        for (int j = searchIndex; j<notes.length; j++ ) {
+        	int Y = notes[j].y;
+        	
+            if(notes[j].x==i && notes[j].hit == 0 && Y>430 && Y<530 ) {
+            	//perfect
+            	if(Y>=450 && Y<=500) {
+            	
+            		song.score+=500;
+            		perfectCount++;
+            		showAccuracy(perfect);
+            	}
+            	else {
+            	//good
+            		song.score+=200;
+            		goodCount++;
+            		showAccuracy(good);
+            	}
+            	
+            	
                 //cannot calculate one bar twice
                 notes[j].hit = 1;
-                
+                notes[j].pass = 1;
+                combo++;
                 scoreContent.setText("Score: "+Integer.toString(song.score));
                 
-                
-                if(j!=0){
-                	if( notes[j-1].hit==1) {
-                	 combo += 1;
-                	 }
-                	 else {combo=0;}
-                	}
-                else combo=1;
+               
 
                 co.setText(String.valueOf(combo));
                 //----
-                showAccuracy("C:\\Users\\思遥\\IdeaProjects\\FinalProject\\src\\rhythmGame\\img_and_audio\\perfect.png");
+                searchIndex = j;   
                 return;
             }
             
-          //good
-            else if(notes[j].x==i & ((notes[j].y>=430 & notes[j].y<450) || (notes[j].y>500 & notes[j].y<530)) & notes[j].hit==0){
-                notes[j].hit=1;
-                song.score+=200;
-                scoreContent.setText("Score: "+Integer.toString(song.score));
-                goodCount+=1;
-                if(j!=0){
-                    if( notes[j-1].hit==1) {
-                        combo += 1;
-                    }
-                    else {combo=0;}
-                }
-                else if(j==0){
-                    combo=1;
-                }
-                co.setText(String.valueOf(combo));
-                
-                showAccuracy("C:\\Users\\思遥\\IdeaProjects\\FinalProject\\src\\rhythmGame\\img_and_audio\\Good1.png");
-               
-                return;
-            }
+          
         }
 
     }
@@ -479,14 +544,12 @@ public class MainGameScreen extends JPanel implements ActionListener{
      * pop out accuracy img
      * @param path
      */
-    public void showAccuracy(String path){
+    public void showAccuracy(ImageIcon image){
         accuracy.setVisible(true);
-        ImageIcon icon = new ImageIcon(path, null);
-        Image before = icon.getImage();
-        Image resizedImage = before.getScaledInstance(accuracy.getWidth(),accuracy.getHeight(),Image.SCALE_SMOOTH);
-        ImageIcon newicon = new ImageIcon(resizedImage);
-        accuracy.setIcon(newicon);
+        accuracy.setIcon(image);
         // icon lasts for 2 seconds and then disappears
+        
+        
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -498,6 +561,9 @@ public class MainGameScreen extends JPanel implements ActionListener{
                 }
             }
         }).start();
+        
+        
+        
     }
 
 	

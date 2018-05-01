@@ -3,13 +3,19 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 
 public class Settings extends JPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public Settings(GUI window) {
 
     setBackground(new Color(0,0,0,0));
     setLayout(null);
+    
+    //set up JTextFields
     JTextField easy = new JTextField("2",1);
     JTextField normal = new JTextField("3",1);
     JTextField expert = new JTextField("4",1);
@@ -17,7 +23,7 @@ public class Settings extends JPanel {
     normal.setBounds(500,250,30,30);
     expert.setBounds(500,450,30,30);
     JLabel eText = new JLabel("Speed for Easy Levels");
-    JLabel nText = new JLabel("Speed for Hard Levels");
+    JLabel nText = new JLabel("Speed for Normal Levels");
     JLabel exText = new JLabel("Speed for Expert Levels");
     Font font = new Font("Consolas", Font.PLAIN, 30); 
     eText.setForeground(Color.WHITE);
@@ -29,20 +35,20 @@ public class Settings extends JPanel {
     eText.setBounds(100,50,400,30);
     nText.setBounds(100,250,400,30);
     exText.setBounds(100,450,400,30);
-
+    
+    
+    //back button
     JButton back = new JButton();
     back.setBounds(0,0,80,50);
-    ImageIcon b = new ImageIcon("C:\\Users\\思遥\\IdeaProjects\\FinalProject\\src\\rhythmGame\\img_and_audio\\button_back.png");
+    ImageIcon b = new ImageIcon("C:\\Users\\hq\\eclipse-workspace\\FinalProject.zip_expanded\\FinalProject-master\\src\\img_and_audio\\button_back.png");
     Image before = b.getImage();
     Image resizedImage = before.getScaledInstance(back.getWidth(),back.getHeight(),Image.SCALE_SMOOTH);
     ImageIcon newicon = new ImageIcon(resizedImage);
     back.setIcon(newicon);
-    back.setBackground(new Color(0,0,0,0));
-    back.setBorder(null);
-    back.setMargin(new Insets(0, 0, 0, 0));
-
-    back.setOpaque(false);
-
+    window.setButtonStyle(back);
+    
+    
+    //add event listeners
     back.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent event) {
@@ -71,6 +77,7 @@ public class Settings extends JPanel {
             window.game.exSpeed = Integer.parseInt(expert.getText());
         }
     });
+    
     add(back);
     add(easy);
     add(normal);
@@ -87,7 +94,7 @@ public class Settings extends JPanel {
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		//draw background
-		ImageIcon icon = new ImageIcon("C:\\Users\\思遥\\IdeaProjects\\FinalProject\\src\\rhythmGame\\img_and_audio\\bg_1.jpg",null);
+		ImageIcon icon = new ImageIcon("C:\\Users\\hq\\eclipse-workspace\\FinalProject.zip_expanded\\FinalProject-master\\src\\img_and_audio\\bg_1.jpg",null);
 		Image before = icon.getImage();
 		Image newImage = before.getScaledInstance(800, 600, Image.SCALE_SMOOTH);
 		ImageIcon newIcon = new ImageIcon(newImage);

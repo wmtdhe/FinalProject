@@ -1,13 +1,9 @@
 package rhythmGame;
 
 import javax.swing.*;
-import java.util.concurrent.TimeUnit;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.geom.Line2D;
 import javax.swing.ImageIcon;  
 
 /**
@@ -16,6 +12,10 @@ import javax.swing.ImageIcon;
 
 public class GUI extends JFrame{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	//using a cardlayout
     public JPanel cardPanel;
     public CardLayout cardLayout = new CardLayout();
@@ -41,59 +41,27 @@ public class GUI extends JFrame{
 
         getContentPane().add(cardPanel,BorderLayout.SOUTH);
         setSize(800,600);
+        
+        
+        //set icons for buttons
+        ImageIcon newgame_b = new ImageIcon("C:\\Users\\hq\\eclipse-workspace\\FinalProject.zip_expanded\\FinalProject-master\\src\\img_and_audio\\button_new-game.png",null);
+        ImageIcon profile_b = new ImageIcon("C:\\Users\\hq\\eclipse-workspace\\FinalProject.zip_expanded\\FinalProject-master\\src\\img_and_audio\\button_profile.png",null);
+        ImageIcon credit_b = new ImageIcon("C:\\Users\\hq\\eclipse-workspace\\FinalProject.zip_expanded\\FinalProject-master\\src\\img_and_audio\\button_credit.png",null);
+        ImageIcon settings_b = new ImageIcon("C:\\Users\\hq\\eclipse-workspace\\FinalProject.zip_expanded\\FinalProject-master\\src\\img_and_audio\\button_settings.png",null);
+        ImageIcon exit_b = new ImageIcon("C:\\Users\\hq\\eclipse-workspace\\FinalProject.zip_expanded\\FinalProject-master\\src\\img_and_audio\\button_exit.png",null);
 
         //make start menu buttons
-        ImageIcon newgame_b = new ImageIcon("C:\\Users\\思遥\\IdeaProjects\\FinalProject\\src\\rhythmGame\\img_and_audio\\button_new-game.png",null);
-        ImageIcon profile_b = new ImageIcon("C:\\Users\\思遥\\IdeaProjects\\FinalProject\\src\\rhythmGame\\img_and_audio\\button_profile.png",null);
-        ImageIcon credit_b = new ImageIcon("C:\\Users\\思遥\\IdeaProjects\\FinalProject\\src\\rhythmGame\\img_and_audio\\button_credit.png",null);
-        ImageIcon settings_b = new ImageIcon("C:\\Users\\思遥\\IdeaProjects\\FinalProject\\src\\rhythmGame\\img_and_audio\\button_settings.png",null);
-        ImageIcon exit_b = new ImageIcon("C:\\Users\\思遥\\IdeaProjects\\FinalProject\\src\\rhythmGame\\img_and_audio\\button_exit.png",null);
-
         JButton newGame =  new JButton(newgame_b);
-       // Image before = icon.getImage();
-        //Image newImage = before.getScaledInstance(newGame.getWidth(), newGame.getHeight(), Image.SCALE_SMOOTH);
-        //ImageIcon newgame = new ImageIcon(newImage);
-        //newGame.setIcon(newgame);
-        //newGame.setBackground(new Color(0,0,0,0));
-        //newGame.setBorder(null);
         JButton profileButton =new JButton(profile_b);
         JButton creditButton = new JButton(credit_b);
         JButton settingsButton = new JButton(settings_b);
         JButton Exit = new JButton(exit_b);
-        //
-        newGame.setBackground(new Color(0,0,0,0));
-        newGame.setBorder(null);
-        newGame.setMargin(new Insets(0, 0, 0, 0));
-        //newGame.setForeground(Color.white);
-        newGame.setOpaque(false);
-
-        profileButton.setBackground(new Color(0,0,0,0));
-        profileButton.setBorder(null);
-        profileButton.setMargin(new Insets(0, 0, 0, 0));
-        //profileButton.setForeground(Color.white);
-        profileButton.setOpaque(false);
-
-        creditButton.setBackground(new Color(0,0,0,0));
-        creditButton.setBorder(null);
-        creditButton.setMargin(new Insets(0, 0, 0, 0));
-        //creditButton.setForeground(Color.white);
-        creditButton.setOpaque(false);
-
-        settingsButton.setBackground(new Color(0,0,0,0));
-        settingsButton.setBorder(null);
-        settingsButton.setMargin(new Insets(0, 0, 0, 0));
-        //settingsButton.setForeground(Color.white);
-        settingsButton.setOpaque(false);
-
-        Exit.setBackground(new Color(0,0,0,0));
-        Exit.setBorder(null);
-        Exit.setMargin(new Insets(0, 0, 0, 0));
-        //Exit.setForeground(Color.white);
-        Exit.setOpaque(false);
-        //
-        //newGame.setForeground(Color.white);
-        //
-        //newGame.setMargin(new Insets(0, 0, 0, 0));
+        
+        setButtonStyle(newGame);
+        setButtonStyle(profileButton);
+        setButtonStyle(creditButton);
+        setButtonStyle(settingsButton);
+        setButtonStyle(Exit);
         
         
         //display other cards when clicked
@@ -134,6 +102,7 @@ public class GUI extends JFrame{
         Exit.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
+            	if(name!=null && name!="")game.storePlayerData();
                 System.exit(0);
             }
         });
@@ -149,11 +118,11 @@ public class GUI extends JFrame{
         		super.paintComponent(g);
         		
         		//draw background
-        		ImageIcon icon = new ImageIcon("C:\\Users\\思遥\\IdeaProjects\\FinalProject\\src\\rhythmGame\\img_and_audio\\bg_1.jpg",null);
-                Image before = icon.getImage();
-                Image newImage = before.getScaledInstance(800, 600, Image.SCALE_SMOOTH);
-                ImageIcon newIcon = new ImageIcon(newImage);
-                newImage = newIcon.getImage();
+        		ImageIcon icon = new ImageIcon("C:\\Users\\hq\\eclipse-workspace\\FinalProject.zip_expanded\\FinalProject-master\\src\\img_and_audio\\bg_1.jpg",null);
+        		Image before = icon.getImage();
+        		Image newImage = before.getScaledInstance(800, 600, Image.SCALE_SMOOTH);
+        		ImageIcon newIcon = new ImageIcon(newImage);
+        		newImage = newIcon.getImage();
         		g.drawImage(newImage, 0, 0, null);
        	    
        	    
@@ -164,11 +133,6 @@ public class GUI extends JFrame{
         		g.drawString("Rhythm Game!", 250, 150);
        	}
         };
-        //menu.add(newGame,gbc);
-        //menu.add(profileButton,gbc);
-        //menu.add(creditButton,gbc);
-        //menu.add(settingsButton,gbc);
-        //menu.add(Exit,gbc);
         menu.add(newGame,gbc);
         menu.add(profileButton,gbc);
         menu.add(creditButton,gbc);
@@ -187,12 +151,30 @@ public class GUI extends JFrame{
         
     }
 
+
+
+    //customize buttons
+	public void setButtonStyle(JButton button) {
+		button.setBackground(new Color(0,0,0,0));
+        button.setBorder(null);
+        button.setMargin(new Insets(0, 0, 0, 0));
+        button.setOpaque(false);
+	}
+
    
    
     public static void main(String []args){
         GUI s=new GUI();
         s.setTitle("Game");
-        s.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        s.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        s.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                if(s.name!=null && s.name!="")s.game.storePlayerData();
+                    System.exit(0);
+                
+            }
+        });
         
         s.setVisible(true);
     }
