@@ -15,13 +15,19 @@ import java.awt.event.MouseAdapter;
 
 public class SongSelection extends JPanel implements ActionListener{
     public CardLayout c;
-    public JFrame sf;
+    public GUI sf;
     public JButton back;
    // public AudioStream BGM;
     public Clip clip;
-    public SongSelection(JFrame frame) {
+    public JButton song1;
+    public JButton song2;
+
+    public SongSelection(GUI frame) {
         sf = frame;
-        back = new JButton("Back");
+        ImageIcon b = new ImageIcon("C:\\Users\\思遥\\IdeaProjects\\FinalProject\\src\\rhythmGame\\img_and_audio\\button_back.png");
+        back = new JButton(b);
+
+        //
         c = new CardLayout();
         setLayout(c);
         JPanel songlist = new JPanel();
@@ -32,8 +38,20 @@ public class SongSelection extends JPanel implements ActionListener{
         JLabel previewImg2 = new JLabel();
         previewImg2.setBounds(0,250,400,250);
         previewImg2.setIcon(ResizedIcon("C:\\Users\\思遥\\IdeaProjects\\FinalProject\\src\\rhythmGame\\img_and_audio\\yume.jpg",previewImg2));
-        JButton song1 = new JButton("Freely Tomorrow");
-        JButton song2 = new JButton("Yumetourou");
+        song1 = new JButton("Freely Tomorrow");
+        song1.setFont(new Font("Monospaced", Font.ITALIC+Font.BOLD, 30));
+        song2 = new JButton("Yumetourou");
+        song2.setFont(new Font("Monospaced", Font.ITALIC+Font.BOLD, 30));
+        //
+        ImageIcon h = new ImageIcon("C:\\Users\\思遥\\IdeaProjects\\FinalProject\\src\\rhythmGame\\img_and_audio\\button_hard-mode.png");
+        JButton hardMode = new JButton(h);
+        hardMode.setBounds(400,480,400,100);
+        hardMode.setBackground(new Color(0,0,0,0));
+        hardMode.setBorder(null);
+        hardMode.setMargin(new Insets(0, 0, 0, 0));
+        hardMode.setOpaque(false);
+        hardMode.addActionListener(this);
+        songlist.add(hardMode);
         
         song1.addMouseListener(new MouseAdapter() {
 
@@ -63,8 +81,12 @@ public class SongSelection extends JPanel implements ActionListener{
 
         song1.setBounds(400,0,400,250);
         song2.setBounds(400,250,400,250);
-        back.setBounds(0,500,800,100);
-
+        //back.setBounds(0,500,800,100);
+        back.setBounds(0,480,400,100);
+        back.setBackground(new Color(0,0,0,0));
+        back.setBorder(null);
+        back.setMargin(new Insets(0, 0, 0, 0));
+        back.setOpaque(false);
 
         song1.addActionListener(this);
         song2.addActionListener(this);
@@ -76,28 +98,31 @@ public class SongSelection extends JPanel implements ActionListener{
         songlist.add(back);
         add(songlist);
         
-        
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
     	JButton b = (JButton)e.getSource();
-        if(b.getText().equals("Freely Tomorrow")) {
+        if(b==song1) {
             JPanel levelselection = new LevelSelection(sf, "freely tomorrow");
             add(levelselection,"level");
             c.show(this, "level");
 
             sf.setTitle("Freely Tomorrow");
         }
-        else if(b.getText().equals("Yumetourou")){
+        else if(b==song2){
             JPanel levelselection = new LevelSelection(sf,"yumetourou");
             add(levelselection,"level");
             c.show(this, "level");
             sf.setTitle("Yumetourou");
         }
-        else if(b.getText().equals("Back")) {
+        else if(b==back) {
         	this.setVisible(false);
-        	
+        }
+        else{
+            MainGameScreen mainGame = new MainGameScreen(sf,"Expert","freely tomorrow",true);
+            add(mainGame,"game");
+            c.show(this,"game");
         }
     }
 
@@ -126,7 +151,7 @@ public class SongSelection extends JPanel implements ActionListener{
                 inputStream = AudioSystem.getAudioInputStream(new File("C:\\Users\\思遥\\IdeaProjects\\FinalProject\\src\\rhythmGame\\img_and_audio\\梦灯笼.wav"));
             }
             else {
-                inputStream = AudioSystem.getAudioInputStream(new File("C:\\Users\\思遥\\IdeaProjects\\FinalProject\\src\\rhythmGame\\img_and_audio\\p80_FREELY TOMORROW feat. 初音ミク.wav"));
+                inputStream = AudioSystem.getAudioInputStream(new File("C:\\Users\\思遥\\IdeaProjects\\FinalProject\\src\\rhythmGame\\img_and_audio\\FREELY_TOMORROW.wav"));
             }
             clip.open(inputStream);
             clip.start();

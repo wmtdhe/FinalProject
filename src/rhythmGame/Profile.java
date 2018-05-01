@@ -209,7 +209,7 @@ public class Profile extends JPanel implements ActionListener{
                     percent = progressBars[0].getMaximum();
                 }
                 progressBars[0].setValue(progressed);
-                if(played>1){
+                if(played>=1){
                     progressBars[0].setString("1/1");
                 }
                 else{

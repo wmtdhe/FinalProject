@@ -43,16 +43,57 @@ public class GUI extends JFrame{
         setSize(800,600);
 
         //make start menu buttons
-        JButton newGame =  new JButton("New Game");
-        JButton profileButton =new JButton("Profile");
-        JButton creditButton = new JButton("Credit");
-        JButton settingsButton = new JButton("Settings");
-        JButton Exit = new JButton("Exit");
-        
+        ImageIcon newgame_b = new ImageIcon("C:\\Users\\思遥\\IdeaProjects\\FinalProject\\src\\rhythmGame\\img_and_audio\\button_new-game.png",null);
+        ImageIcon profile_b = new ImageIcon("C:\\Users\\思遥\\IdeaProjects\\FinalProject\\src\\rhythmGame\\img_and_audio\\button_profile.png",null);
+        ImageIcon credit_b = new ImageIcon("C:\\Users\\思遥\\IdeaProjects\\FinalProject\\src\\rhythmGame\\img_and_audio\\button_credit.png",null);
+        ImageIcon settings_b = new ImageIcon("C:\\Users\\思遥\\IdeaProjects\\FinalProject\\src\\rhythmGame\\img_and_audio\\button_settings.png",null);
+        ImageIcon exit_b = new ImageIcon("C:\\Users\\思遥\\IdeaProjects\\FinalProject\\src\\rhythmGame\\img_and_audio\\button_exit.png",null);
+
+        JButton newGame =  new JButton(newgame_b);
+       // Image before = icon.getImage();
+        //Image newImage = before.getScaledInstance(newGame.getWidth(), newGame.getHeight(), Image.SCALE_SMOOTH);
+        //ImageIcon newgame = new ImageIcon(newImage);
+        //newGame.setIcon(newgame);
+        //newGame.setBackground(new Color(0,0,0,0));
+        //newGame.setBorder(null);
+        JButton profileButton =new JButton(profile_b);
+        JButton creditButton = new JButton(credit_b);
+        JButton settingsButton = new JButton(settings_b);
+        JButton Exit = new JButton(exit_b);
+        //
         newGame.setBackground(new Color(0,0,0,0));
-        newGame.setForeground(Color.white);
         newGame.setBorder(null);
         newGame.setMargin(new Insets(0, 0, 0, 0));
+        //newGame.setForeground(Color.white);
+        newGame.setOpaque(false);
+
+        profileButton.setBackground(new Color(0,0,0,0));
+        profileButton.setBorder(null);
+        profileButton.setMargin(new Insets(0, 0, 0, 0));
+        //profileButton.setForeground(Color.white);
+        profileButton.setOpaque(false);
+
+        creditButton.setBackground(new Color(0,0,0,0));
+        creditButton.setBorder(null);
+        creditButton.setMargin(new Insets(0, 0, 0, 0));
+        //creditButton.setForeground(Color.white);
+        creditButton.setOpaque(false);
+
+        settingsButton.setBackground(new Color(0,0,0,0));
+        settingsButton.setBorder(null);
+        settingsButton.setMargin(new Insets(0, 0, 0, 0));
+        //settingsButton.setForeground(Color.white);
+        settingsButton.setOpaque(false);
+
+        Exit.setBackground(new Color(0,0,0,0));
+        Exit.setBorder(null);
+        Exit.setMargin(new Insets(0, 0, 0, 0));
+        //Exit.setForeground(Color.white);
+        Exit.setOpaque(false);
+        //
+        //newGame.setForeground(Color.white);
+        //
+        //newGame.setMargin(new Insets(0, 0, 0, 0));
         
         
         //display other cards when clicked
@@ -108,21 +149,26 @@ public class GUI extends JFrame{
         		super.paintComponent(g);
         		
         		//draw background
-        		ImageIcon icon = new ImageIcon("C:\\Users\\hq\\eclipse-workspace\\FinalProject.zip_expanded\\FinalProject-master\\src\\rhythmGame\\bg.jpg",null);
-        		Image before = icon.getImage();
-        		Image newImage = before.getScaledInstance(800, 600, Image.SCALE_SMOOTH);
-        		ImageIcon newIcon = new ImageIcon(newImage);
-        		newImage = newIcon.getImage();
+        		ImageIcon icon = new ImageIcon("C:\\Users\\思遥\\IdeaProjects\\FinalProject\\src\\rhythmGame\\img_and_audio\\bg_1.jpg",null);
+                Image before = icon.getImage();
+                Image newImage = before.getScaledInstance(800, 600, Image.SCALE_SMOOTH);
+                ImageIcon newIcon = new ImageIcon(newImage);
+                newImage = newIcon.getImage();
         		g.drawImage(newImage, 0, 0, null);
        	    
        	    
         		//draw title
         		g.setColor(Color.WHITE);
-        		Font font = new Font("Consolas", Font.PLAIN, 50); 
+        		Font font = new Font("Monospaced", Font.ITALIC + Font.BOLD, 50);
         		g.setFont(font);
         		g.drawString("Rhythm Game!", 250, 150);
        	}
         };
+        //menu.add(newGame,gbc);
+        //menu.add(profileButton,gbc);
+        //menu.add(creditButton,gbc);
+        //menu.add(settingsButton,gbc);
+        //menu.add(Exit,gbc);
         menu.add(newGame,gbc);
         menu.add(profileButton,gbc);
         menu.add(creditButton,gbc);

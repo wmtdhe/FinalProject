@@ -29,9 +29,20 @@ public class Settings extends JPanel {
     eText.setBounds(100,50,400,30);
     nText.setBounds(100,250,400,30);
     exText.setBounds(100,450,400,30);
-    
-    JButton back = new JButton("Back");
+
+    JButton back = new JButton();
     back.setBounds(0,0,80,50);
+    ImageIcon b = new ImageIcon("C:\\Users\\思遥\\IdeaProjects\\FinalProject\\src\\rhythmGame\\img_and_audio\\button_back.png");
+    Image before = b.getImage();
+    Image resizedImage = before.getScaledInstance(back.getWidth(),back.getHeight(),Image.SCALE_SMOOTH);
+    ImageIcon newicon = new ImageIcon(resizedImage);
+    back.setIcon(newicon);
+    back.setBackground(new Color(0,0,0,0));
+    back.setBorder(null);
+    back.setMargin(new Insets(0, 0, 0, 0));
+
+    back.setOpaque(false);
+
     back.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent event) {
@@ -76,7 +87,7 @@ public class Settings extends JPanel {
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		//draw background
-		ImageIcon icon = new ImageIcon("C:\\Users\\hq\\eclipse-workspace\\FinalProject.zip_expanded\\FinalProject-master\\src\\rhythmGame\\bg.jpg",null);
+		ImageIcon icon = new ImageIcon("C:\\Users\\思遥\\IdeaProjects\\FinalProject\\src\\rhythmGame\\img_and_audio\\bg_1.jpg",null);
 		Image before = icon.getImage();
 		Image newImage = before.getScaledInstance(800, 600, Image.SCALE_SMOOTH);
 		ImageIcon newIcon = new ImageIcon(newImage);

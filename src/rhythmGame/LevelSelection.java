@@ -12,12 +12,15 @@ import javax.swing.ImageIcon;
 
 public class LevelSelection extends JPanel implements ActionListener{
     public CardLayout c;
-    public JFrame lf;
+    public GUI lf;
     public JPanel mainGame;
     public String songName;
-
+    public JButton easy;
+    public JButton normal;
+    public JButton expert;
+    public JButton back;
 	private static final long serialVersionUID = 1L; 
-    public LevelSelection(JFrame frame, String songName){
+    public LevelSelection(GUI frame, String songName){
         lf=frame;
         c = new CardLayout();
         this.songName = songName;
@@ -27,7 +30,7 @@ public class LevelSelection extends JPanel implements ActionListener{
         	protected void paintComponent(Graphics g) {
         		super.paintComponent(g);
         		//draw background
-        		ImageIcon icon = new ImageIcon("C:\\Users\\思遥\\IdeaProjects\\FinalProject\\src\\rhythmGame\\img_and_audio\\bg.jpg",null);
+        		ImageIcon icon = new ImageIcon("C:\\Users\\思遥\\IdeaProjects\\FinalProject\\src\\rhythmGame\\img_and_audio\\bg_1.jpg",null);
         		Image before = icon.getImage();
         		Image newImage = before.getScaledInstance(800, 600, Image.SCALE_SMOOTH);
         		ImageIcon newIcon = new ImageIcon(newImage);
@@ -37,19 +40,31 @@ public class LevelSelection extends JPanel implements ActionListener{
         };
         levels.setLayout(null);
 
-        JButton easy = new JButton("Easy");
-        JButton normal = new JButton("Normal");
-        JButton expert = new JButton("Expert");
-        JButton back = new JButton("Back");
+        easy = new JButton("Easy");
+        normal = new JButton("Normal");
+        expert = new JButton("Expert");
+        //
+        back = new JButton();
+        back.setBounds(0,0,80,50);
+        ImageIcon icon = new ImageIcon("C:\\Users\\思遥\\IdeaProjects\\FinalProject\\src\\rhythmGame\\img_and_audio\\button_back.png",null);
+        Image before = icon.getImage();
+        Image newImage = before.getScaledInstance(back.getWidth(), back.getHeight(), Image.SCALE_SMOOTH);
+        ImageIcon b = new ImageIcon(newImage);
+        back.setIcon(b);
+        back.setBackground(new Color(0,0,0,0));
+        back.setBorder(null);
+        back.setMargin(new Insets(0, 0, 0, 0));
+        back.setOpaque(false);
+
+        easy.setBounds(300,50,200,100);
+        normal.setBounds(300,250,200,100);
+        expert.setBounds(300,450,200,100);
 
         levels.add(easy);
         levels.add(normal);
         levels.add(expert);
         levels.add(back);
-        easy.setBounds(300,50,200,100);
-        normal.setBounds(300,250,200,100);
-        expert.setBounds(300,450,200,100);
-        back.setBounds(0,0,80,80);
+
         easy.addActionListener(this);
         normal.addActionListener(this);
         expert.addActionListener(this);
@@ -67,11 +82,11 @@ public class LevelSelection extends JPanel implements ActionListener{
     public void actionPerformed(ActionEvent e) {
     	 JButton b = (JButton)e.getSource();
     	 
-         if(b.getText().equals("Back")) {
+         if(b==back) {
              this.setVisible(false);
          }
          else{
-        	 mainGame = new MainGameScreen(lf,b.getText(),this.songName);
+        	 mainGame = new MainGameScreen(lf,b.getText(),this.songName,false);
         	 add(mainGame,"game");
         	 c.show(this,"game");
         	 lf.setTitle("Game on");

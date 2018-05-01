@@ -1,7 +1,10 @@
 package rhythmGame;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.*;
-import sun.audio.*;
+//import sun.audio.*;
 
 import java.awt.*;
 import java.awt.geom.Line2D;
@@ -15,7 +18,8 @@ public class MainGameScreen extends JPanel implements ActionListener{
 	public GUI window;
 	private int yOffset = 0;//control the speed of falling notes
 	private int speed;
-	public AudioStream BGM;
+	//public AudioStream BGM;
+    public Clip clip;
 	public Song song;
 	public Notes[] notes = new Notes[0];
 	public JPanel scoreBar;
@@ -135,7 +139,7 @@ public class MainGameScreen extends JPanel implements ActionListener{
             public void run() {
                 try {
                 	
-                    while(notes[notes.length-1].pass != 1 && song.health>0){ 
+                    while(notes[notes.length-1].pass != 1 && song.health>0){
                     	//Bars goes downwards
                     	
                     	if(!p) {
@@ -258,7 +262,7 @@ public class MainGameScreen extends JPanel implements ActionListener{
 		
 		Graphics2D g2 = (Graphics2D) g;
 		//draw background
-		ImageIcon icon = new ImageIcon("C:\\Users\\hq\\eclipse-workspace\\FinalProject.zip_expanded\\FinalProject-master\\src\\rhythmGame\\bg.jpg",null);
+		ImageIcon icon = new ImageIcon("C:\\Users\\思遥\\IdeaProjects\\FinalProject\\src\\rhythmGame\\img_and_audio\\bg_1.jpg",null);
 		Image before = icon.getImage();
 		Image newImage = before.getScaledInstance(800, 600, Image.SCALE_SMOOTH);
 		ImageIcon newIcon = new ImageIcon(newImage);
@@ -337,25 +341,19 @@ public class MainGameScreen extends JPanel implements ActionListener{
 	 * @param x
 	 */
 	public void highlight(Graphics g, int x) {
-		
-		AudioStream sfx;
-        InputStream test = null;
-        try
-        {
-        	
-        	test = new FileInputStream("C:\\Users\\hq\\eclipse-workspace\\FinalProject.zip_expanded\\FinalProject-master\\src\\rhythmGame\\button-16.wav");
-        	sfx = new AudioStream(test);
-            AudioPlayer.player.start(sfx);
-            
-           
-        }
-        catch(FileNotFoundException e){
-        	e.printStackTrace();
-        }
-        catch(IOException error)
-        {
-        	error.printStackTrace();
-        }
+
+        Clip clip_button;
+
+        try {
+                        clip_button = AudioSystem.getClip();
+                        AudioInputStream inputStream;
+                        //-select song to play
+                               inputStream = AudioSystem.getAudioInputStream(new File("C:\\Users\\思遥\\IdeaProjects\\FinalProject\\src\\rhythmGame\\img_and_audio\\button-16.wav"));
+                        clip_button.open(inputStream);
+                        clip_button.start();
+                    } catch (Exception e) {
+                        System.err.println(e.getMessage());
+                    }
         
 		g.setColor(new Color(1,0,1,(float)0.4));
 		g.fillRect(x, 450, 95, 50);
@@ -366,30 +364,34 @@ public class MainGameScreen extends JPanel implements ActionListener{
 	
 	@Override
     public void actionPerformed(ActionEvent e) {
-    	 JButton b = (JButton)e.getSource();
-         if(b.getText().equals("Back")) {
-        	 AudioPlayer.player.stop(BGM);
-             this.setVisible(false);
-             this.window.removeKeyListener(this.window.getKeyListeners()[0]);
-         }
-         else if(b.getText().equals("High Score")){
-        	HighScore hs = new HighScore(window.game,song,false);
-     		hs.setVisible(true);
-       
-         }
-         else if(b.getText().equals("Pause")){
-        	 b.setText("Resume");
-        	 p=true;
-        	 AudioPlayer.player.stop(BGM);}		          
-        else if(b.getText().equals("Resume")){
-        	 p=false;
-        	 b.setText("Pause");
-        	 AudioPlayer.player.start(BGM);}
+        JButton b = (JButton)e.getSource();
+               if(b.getText().equals("Back")) {
+                       //AudioPlayer.player.stop(BGM);
+                       clip.stop();
+                       this.setVisible(false);
+                   }
+               else if(b.getText().equals("High Score")){
+                           	HighScore hs = new HighScore(window.game,song,false);
+                        		hs.setVisible(true);
+
+                                    }
+             else if(b.getText().equals("Pause")){
+                        b.setText("Resume");
+                        p=true;
+                        pauseloc = clip.getMicrosecondPosition();
+                        clip.stop();
+
+                            }
+                else if(b.getText().equals("Resume")){
+                        p=false;
+                        b.setText("Pause");
+                        clip.setMicrosecondPosition(pauseloc);
+                       clip.start(); }
          else {
         	 this.window.removeKeyListener(this.window.getKeyListeners()[0]);
         	 this.finalScore.setVisible(false);
         	 MainGameScreen mainGame = new MainGameScreen(this.window,"Expert","yumetourou",true);
-        	 mainGame.setVisible(true);
+                   mainGame.setVisible(true);
         	 add(mainGame);
         	 
          }
@@ -397,35 +399,22 @@ public class MainGameScreen extends JPanel implements ActionListener{
 	
 	
 	public void music() 
-    {       
-        AudioPlayer MGP = AudioPlayer.player;
-
-
-        ContinuousAudioDataStream loop = null;
-        InputStream test = null;
-        
-        try
-        {
-        	if(this.song.name.equals("freely tomorrow")) {
-        		test = new FileInputStream("C:\\Users\\hq\\eclipse-workspace\\FinalProject.zip_expanded\\FinalProject-master\\src\\rhythmGame\\FREELY_TOMORROW.wav");
-        	}
-        	else {
-        		test = new FileInputStream("C:\\Users\\hq\\eclipse-workspace\\FinalProject.zip_expanded\\FinalProject-master\\src\\rhythmGame\\�ε���.wav");
-        		
-        	}
-            this.BGM = new AudioStream(test);
-            AudioPlayer.player.start(BGM);
-            
-           
+    {
+        try {
+            clip = AudioSystem.getClip();
+            AudioInputStream inputStream;
+            //-select song to play
+            if(this.song.name.equals("yumetourou")) {
+                inputStream = AudioSystem.getAudioInputStream(new File("C:\\Users\\思遥\\IdeaProjects\\FinalProject\\src\\rhythmGame\\img_and_audio\\梦灯笼.wav"));
+            }
+            else {
+                inputStream = AudioSystem.getAudioInputStream(new File("C:\\Users\\思遥\\IdeaProjects\\FinalProject\\src\\rhythmGame\\img_and_audio\\FREELY_TOMORROW.wav"));
+            }
+            clip.open(inputStream);
+            clip.start();
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
         }
-        catch(FileNotFoundException e){
-        	e.printStackTrace();
-        }
-        catch(IOException error)
-        {
-        	error.printStackTrace();
-        }
-        MGP.start(loop);
     }
 	
 	
@@ -457,7 +446,7 @@ public class MainGameScreen extends JPanel implements ActionListener{
 
                 co.setText(String.valueOf(combo));
                 //----
-                showAccuracy("C:\\Users\\˼ң\\IdeaProjects\\FinalProject\\src\\rhythmGame\\img_and_audio\\perfect.png");    
+                showAccuracy("C:\\Users\\思遥\\IdeaProjects\\FinalProject\\src\\rhythmGame\\img_and_audio\\perfect.png");
                 return;
             }
             
@@ -478,7 +467,7 @@ public class MainGameScreen extends JPanel implements ActionListener{
                 }
                 co.setText(String.valueOf(combo));
                 
-                showAccuracy("C:\\Users\\˼ң\\IdeaProjects\\FinalProject\\src\\rhythmGame\\img_and_audio\\Good1.png");
+                showAccuracy("C:\\Users\\思遥\\IdeaProjects\\FinalProject\\src\\rhythmGame\\img_and_audio\\Good1.png");
                
                 return;
             }
